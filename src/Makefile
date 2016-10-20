@@ -8,5 +8,3 @@ MYLIBRARIES= -lallegro -lallegro_acodec -lallegro_audio -lallegro_color -lallegr
 OBJS = *.cpp
 all: ${OBJS}
 	$(CCX) $(CXXFLAGS)  -o coche ${OBJS} $(MYLIBRARIES)
-
-	rm -r coche.dSYM	
