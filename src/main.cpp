@@ -1,10 +1,8 @@
 #include <stdio.h>
-#include <allegro5/allegro.h>
 #include <cstdlib>
 #include <iostream>
-#include "allegro5/allegro_native_dialog.h"
-#include "allegro5/allegro_image.h"
 #include <ctime>
+#include "../header/aux_func.hpp"
 
 const float FPS = 60;
 
