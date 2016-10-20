@@ -43,7 +43,7 @@ int main(int argc, char **argv)
     }
 
     if(!al_init()) {
-        fprintf(stderr, "Fallo al inciiar la librería gráfica!!\n");
+        fprintf(stderr, "Fallo al inciiar la librerï¿½a grï¿½fica!!\n");
         return -1;
     }
 
