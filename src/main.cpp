@@ -22,9 +22,17 @@ int main(int argc, char **argv)
 
     ALLEGRO_DISPLAY *display = NULL;
     ALLEGRO_BITMAP *wall =NULL;
+    ALLEGRO_BITMAP *car =NULL;
+    ALLEGRO_BITMAP *end =NULL;
     ALLEGRO_EVENT_QUEUE *event_queue = NULL;
     ALLEGRO_TIMER *timer = NULL;
     bool redraw = true;
+    bool car_bool =false;
+    bool end_bool = false;
+    int x_car;
+    int y_car;
+    int x_end;
+    int y_end;
 
     bool obstaculos[W_WIDTH][W_HEIGHT];
 
@@ -86,6 +94,8 @@ int main(int argc, char **argv)
     al_clear_to_color(al_map_rgb(0,0,0));
 
     wall = load_bitmap_at_size("./images/00_0.png", 25, 25);
+    car = load_bitmap_at_size("./images/00_1.png", 25, 25);
+    end = load_bitmap_at_size("./images/00_2.png", 25, 25);
 
     if(!wall) {
         al_show_native_message_box(display, "Error", "Error", "Failed to load image!",
@@ -118,15 +128,20 @@ int main(int argc, char **argv)
         }
         if (ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN) {
 
+          if (ev.mouse.button & 1 ){
+            int x = ev.mouse.x/25;
+            int y= ev.mouse.y/25;
+            if (!obstaculos[x][y] && car_bool && !end_bool){
+              end_bool=true;
+              x_end = x;
+              y_end = y;
 
-
-          int pos_x = ev.mouse.x;
-          int pos_y= ev.mouse.y;
-          if (ev.mouse.button & 1){
-            std::cout << "Clicked" << std::endl;
-            std::cout << pos_x/25 << std::endl;
-            std::cout << pos_y/25 << std::endl;
-            obstaculos[pos_x/25][pos_y/25] = true;
+            }
+            if (!obstaculos[x][y] && !car_bool){
+              car_bool=true;
+              x_car = x;
+              y_car = y;
+            }
           }
         }
 
@@ -140,6 +155,12 @@ int main(int argc, char **argv)
                     }
                 }
             }
+          if (car_bool)
+            al_draw_bitmap(car,25*x_car,25*y_car,0);//dibujar cochecito.
+          if (end_bool)
+            al_draw_bitmap(end,25*x_end,25*y_end,0);//dibujar cochecito.
+
+
             al_flip_display();
         }
     }
