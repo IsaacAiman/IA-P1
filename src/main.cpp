@@ -67,11 +67,18 @@ int main(int argc, char **argv)
         return 0;
     }
 
+    if (!al_install_mouse()){
+      fprintf(stderr, "Fallo al instalar controlador de ratón!\n");
+      return -1;
+    }
+
     display = al_create_display(25*W_WIDTH, 25*W_HEIGHT);
     if(!display) {
         fprintf(stderr, "Fallo al crear la pantalla!\n");
         return -1;
     }
+
+    al_register_event_source(event_queue , al_get_mouse_event_source());
 
     al_register_event_source(event_queue, al_get_display_event_source(display));
     al_register_event_source(event_queue, al_get_timer_event_source(timer));
@@ -108,6 +115,19 @@ int main(int argc, char **argv)
         }
         else if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
             break;
+        }
+        if (ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN) {
+
+
+
+          int pos_x = ev.mouse.x;
+          int pos_y= ev.mouse.y;
+          if (ev.mouse.button & 1){
+            std::cout << "Clicked" << std::endl;
+            std::cout << pos_x/25 << std::endl;
+            std::cout << pos_y/25 << std::endl;
+            obstaculos[pos_x/25][pos_y/25] = true;
+          }
         }
 
         if(redraw && al_is_event_queue_empty(event_queue)) {
