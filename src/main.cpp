@@ -29,10 +29,10 @@ int main(int argc, char **argv)
     bool redraw = true;
     bool car_bool =false;
     bool end_bool = false;
-    int x_car;
-    int y_car;
-    int x_end;
-    int y_end;
+    int x_car=-1;
+    int y_car=-1;
+    int x_end=-1;
+    int y_end=-1;
 
     bool obstaculos[W_WIDTH][W_HEIGHT];
 
@@ -155,9 +155,9 @@ int main(int argc, char **argv)
                     }
                 }
             }
-          if (car_bool)
+          if ((car_bool)&&(x_car>=0)&&(y_car>=0))
             al_draw_bitmap(car,25*x_car,25*y_car,0);//dibujar cochecito.
-          if (end_bool)
+          if ((end_bool)&&(x_end>=0)&&(y_end>=0))
             al_draw_bitmap(end,25*x_end,25*y_end,0);//dibujar cochecito.
 
 
