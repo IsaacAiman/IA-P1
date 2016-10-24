@@ -4,7 +4,7 @@
 #include <ctime>
 #include "../header/aux_func.hpp"
 
-const float FPS = 60;
+const float FPS = 30;
 
 int main(int argc, char **argv)
 {
@@ -129,15 +129,15 @@ int main(int argc, char **argv)
         if (ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN) {
 
           if (ev.mouse.button & 1 ){
-            int x = ev.mouse.x/25;
-            int y= ev.mouse.y/25;
-            if (!obstaculos[x][y] && car_bool && !end_bool){
+            int x = (ev.mouse.x/25)*25;
+            int y= (ev.mouse.y/25)*25;
+            if (!obstaculos[x/25][y/25] && car_bool && !end_bool){
               end_bool=true;
               x_end = x;
               y_end = y;
 
             }
-            if (!obstaculos[x][y] && !car_bool){
+            if (!obstaculos[x/25][y/25] && !car_bool){
               car_bool=true;
               x_car = x;
               y_car = y;
@@ -155,10 +155,13 @@ int main(int argc, char **argv)
                     }
                 }
             }
-          if ((car_bool)&&(x_car>=0)&&(y_car>=0))
-            al_draw_bitmap(car,25*x_car,25*y_car,0);//dibujar cochecito.
+          if ((car_bool)&&(x_car>=0)&&(y_car>=0)){
+            al_draw_bitmap(car,x_car,y_car,0);//dibujar cochecito.
+            x_car++;
+            //y_car++;
+          }
           if ((end_bool)&&(x_end>=0)&&(y_end>=0))
-            al_draw_bitmap(end,25*x_end,25*y_end,0);//dibujar cochecito.
+            al_draw_bitmap(end,x_end,y_end,0);//dibujar cochecito.
 
 
             al_flip_display();
