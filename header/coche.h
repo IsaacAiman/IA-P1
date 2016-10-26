@@ -19,6 +19,7 @@ class coche
         coche(char filename[], unsigned x, unsigned y);
         virtual ~coche();
         void dibujar();
+        void move(int dir);
 
 };
 

@@ -6,4 +6,5 @@ coche
 *.layout
 *.log
 *.cbp
-/obj
+obj/
+bin/

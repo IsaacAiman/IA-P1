@@ -23,3 +23,26 @@ coche::~coche()
 void coche::dibujar(){
     al_draw_bitmap(coche_img,coord_x,coord_y,0);
 }
+
+void coche::move(int dir){
+    d=0;
+    if(dir){
+        d=dir;
+        switch(dir){
+        case 1:
+            coord_y--;
+            break;
+        case 2:
+            coord_x++;
+            break;
+        case 3:
+            coord_y++;
+            break;
+        case 4:
+            coord_x--;
+            break;
+        }
+    }
+}
+
+
