@@ -21,7 +21,7 @@ coche::~coche()
 }
 
 void coche::dibujar(){
-    al_draw_bitmap(coche_img,coord_x,coord_y,0);
+    al_draw_rotated_bitmap(coche_img, 25.0/2, 25.0/2, coord_x+12.5, coord_y+12.5, (d)*(ALLEGRO_PI/2), 0);
 }
 
 void coche::move(int dir){

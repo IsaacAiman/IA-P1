@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <cstdlib>
-#include <iostream>
 #include <ctime>
 #include "../header/aux_func.hpp"
 #include "../header/coche.h"
@@ -13,7 +12,6 @@ int main(int argc, char **argv)
         std::cerr<<"Numero de argumentos incorrecto"<<std::endl<<"./coche TAM_X TAM_Y \n";
         return -1;
     }
-
     std::srand(time(NULL));
 
     const unsigned W_WIDTH=atoi(argv[1]);
@@ -114,7 +112,7 @@ int main(int argc, char **argv)
     al_flip_display();
 
     int count=0;
-    int current_direction=0;
+    int current_direction=2;
     while(1)
     {
         if(0==(count=count%25)){
@@ -166,7 +164,7 @@ int main(int argc, char **argv)
             }
 
             if ((end_bool)&&(x_end>=0)&&(y_end>=0))
-                al_draw_bitmap(end,x_end,y_end,0);//dibujar cochecito.
+                al_draw_bitmap(end,x_end,y_end,0);
 
 
             al_flip_display();

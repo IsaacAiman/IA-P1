@@ -3,6 +3,7 @@
 
 
 
+#include <iostream>
 #include "../header/aux_func.hpp"
 
 
