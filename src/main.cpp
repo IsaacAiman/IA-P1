@@ -3,6 +3,7 @@
 #include <iostream>
 #include <ctime>
 #include "../header/aux_func.hpp"
+#include "../header/coche.h"
 
 const float FPS = 30;
 
@@ -22,7 +23,6 @@ int main(int argc, char **argv)
 
     ALLEGRO_DISPLAY *display = NULL;
     ALLEGRO_BITMAP *wall =NULL;
-    ALLEGRO_BITMAP *car =NULL;
     ALLEGRO_BITMAP *end =NULL;
     ALLEGRO_EVENT_QUEUE *event_queue = NULL;
     ALLEGRO_TIMER *timer = NULL;
@@ -33,6 +33,7 @@ int main(int argc, char **argv)
     int y_car=-1;
     int x_end=-1;
     int y_end=-1;
+    coche * car = NULL;
 
     bool obstaculos[W_WIDTH][W_HEIGHT];
 
@@ -94,8 +95,7 @@ int main(int argc, char **argv)
     al_clear_to_color(al_map_rgb(0,0,0));
 
     wall = load_bitmap_at_size("./images/00_0.png", 25, 25);
-    car = load_bitmap_at_size("./images/00_1.png", 25, 25);
-    end = load_bitmap_at_size("./images/00_2.png", 25, 25);
+    end = load_bitmap_at_size("./images/00_3.png", 25, 25);
 
     if(!wall) {
         al_show_native_message_box(display, "Error", "Error", "Failed to load image!",
@@ -141,6 +141,7 @@ int main(int argc, char **argv)
               car_bool=true;
               x_car = x;
               y_car = y;
+              car = new coche("./images/00_1.png", y_car, x_car);
             }
           }
         }
@@ -155,11 +156,9 @@ int main(int argc, char **argv)
                     }
                 }
             }
-          if ((car_bool)&&(x_car>=0)&&(y_car>=0)){
-            al_draw_bitmap(car,x_car,y_car,0);//dibujar cochecito.
-            x_car++;
-            //y_car++;
-          }
+        if(car)
+          car->dibujar();
+
           if ((end_bool)&&(x_end>=0)&&(y_end>=0))
             al_draw_bitmap(end,x_end,y_end,0);//dibujar cochecito.
 
@@ -171,6 +170,8 @@ int main(int argc, char **argv)
 
     al_destroy_timer(timer);
     al_destroy_display(display);
+    al_destroy_bitmap(wall);
+    al_destroy_bitmap(end);
     al_destroy_event_queue(event_queue);
 
     return 0;

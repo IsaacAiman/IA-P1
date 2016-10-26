@@ -2,3 +2,8 @@
 .DS_Store
 coche.dSYM
 coche
+*.depend
+*.layout
+*.log
+*.cbp
+/obj
