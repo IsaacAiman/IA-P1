@@ -9,7 +9,7 @@ const float FPS = 30;
 int main(int argc, char **argv)
 {
     if((argc<4)||(argc>4)){
-        std::cerr<<"Numero de argumentos incorrecto"<<std::endl<<"./coche TAM_X TAM_Y \n";
+        std::cerr<<"Número de argumentos incorrecto"<<std::endl<<"./coche TAM_X TAM_Y PORCENTAJE_OBSTÁCULOS\n";
         return -1;
     }
     std::srand(time(NULL));
@@ -135,15 +135,14 @@ int main(int argc, char **argv)
                 int x = (ev.mouse.x/25)*25;
                 int y= (ev.mouse.y/25)*25;
 
-
-                if (!obstaculos[x/25][y/25] && car_bool && !end_bool){
+                if (!obstaculos[x/25][y/25] && end_bool && !car_bool){
+                    car_bool=true;
+                    car = new coche("./images/00_1.png", x, y);
+                }
+                if (!obstaculos[x/25][y/25] && !car_bool){
                     end_bool=true;
                     x_end = x;
                     y_end = y;
-                }
-                if (!obstaculos[x/25][y/25] && !car_bool){
-                    car_bool=true;
-                    car = new coche("./images/00_1.png", x, y);
                 }
             }
         }

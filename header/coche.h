@@ -17,7 +17,7 @@ class coche
 
     public:
         coche();
-        coche(char filename[], unsigned x, unsigned y);
+        coche(const char filename[], unsigned x, unsigned y);
         virtual ~coche();
         void dibujar();
         void move(int dir);

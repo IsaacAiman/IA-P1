@@ -8,7 +8,7 @@ coche::coche()
     coche_img=NULL;
 }
 
-coche::coche(char filename[], unsigned x, unsigned y){
+coche::coche(const char filename[], unsigned x, unsigned y){
     coord_x=x;
     coord_y=y;
     d=0;
@@ -44,5 +44,3 @@ void coche::move(int dir){
         }
     }
 }
-
-
