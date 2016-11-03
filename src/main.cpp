@@ -202,6 +202,8 @@ int main(int argc, char **argv)
     al_destroy_bitmap(wall);
     al_destroy_bitmap(end);
     al_destroy_event_queue(event_queue);
-
+    if(car){
+        delete car;
+    }
     return 0;
 }
