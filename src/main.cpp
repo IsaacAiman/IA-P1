@@ -18,8 +18,8 @@ int main(int argc, char **argv)
     const unsigned W_HEIGHT=atoi(argv[2]);
     const unsigned OBS_POP=atoi(argv[3]);
 
-    float tam_w= 25;
-    float tam_h = 25;
+    float tam_w= 500.0/W_WIDTH;
+    float tam_h = 500.0/W_HEIGHT;
 
 
     ALLEGRO_DISPLAY *display = NULL;
@@ -97,8 +97,8 @@ int main(int argc, char **argv)
     al_clear_to_color(al_map_rgb(0,0,0));
 
 
-    wall = load_bitmap_at_size("./images/00_0.png", 25, 25);
-    end = load_bitmap_at_size("./images/00_3.png", 25, 25);
+    wall = load_bitmap_at_size("./images/00_0.png", tam_w, tam_h);
+    end = load_bitmap_at_size("./images/00_3.png", tam_w, tam_h);
 
     if((!wall) || (!end)) {
         al_show_native_message_box(display, "Error", "Error", "Failed to load image!",
@@ -110,7 +110,7 @@ int main(int argc, char **argv)
     for(int i=0; i<W_WIDTH; i++){
         for(int j=0; j<W_HEIGHT; j++){
             if(obstaculos[i][j]){
-                al_draw_bitmap(wall,25*i,25*j,0);
+                al_draw_bitmap(wall,tam_w*i,tam_h*j,0);
             }
         }
     }
@@ -132,8 +132,6 @@ int main(int argc, char **argv)
 
         al_acknowledge_resize(display);
         if (ev.type == ALLEGRO_EVENT_DISPLAY_RESIZE){
-          std::cout << al_get_display_width(display) << std::endl;
-          std::cout << al_get_display_height(display) << std::endl;
           float w = al_get_display_width(display);
           float h = al_get_display_height(display);
 
@@ -165,7 +163,7 @@ int main(int argc, char **argv)
 
                 if (!obstaculos[obs_x][obs_y] && end_bool && !car_bool){
                     car_bool=true;
-                    car = new coche("./images/00_1.png", tam_w, tam_h);
+                    car = new coche("./images/00_1.png", tam_w, tam_h, obs_x, obs_y);
                 }
                 if (!obstaculos[obs_x][obs_y] && !car_bool){
                     end_bool=true;

@@ -10,14 +10,17 @@
 class coche
 {
     private:
-        unsigned coord_x;
-        unsigned coord_y;
+        float coord_x;
+        float coord_y;
+        float tam_x;
+        float tam_y;
         int d;
+        bool dummy;
         ALLEGRO_BITMAP* coche_img;
 
     public:
         coche();
-        coche(const char filename[],float x, float y);
+        coche(const char filename[],float x, float y, float pos_x, float pos_y);
         virtual ~coche();
         void coche_change_size(const char filename[],float x, float y);
         void dibujar();

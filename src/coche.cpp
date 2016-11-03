@@ -9,11 +9,13 @@ coche::coche()
 
 }
 
-coche::coche(const char filename[], float x, float y){
-    coord_x=x;
-    coord_y=y;
+coche::coche(const char filename[], float x, float y, float pos_x, float pos_y){
+    coord_x=pos_x*x;
+    coord_y=pos_y*y;
+    tam_x = x;
+    tam_y = y;
     d=0;
-
+    dummy = false;
     coche_change_size(filename,  x, y);
 }
 
@@ -23,10 +25,13 @@ coche::~coche()
 }
 
 void coche::dibujar(){
-    al_draw_rotated_bitmap(coche_img, coord_x/2, coord_y/2, coord_x+coord_x/2, coord_y+coord_y/2, (d)*(ALLEGRO_PI/2), 0);
+
+    al_draw_rotated_bitmap(coche_img, tam_x/2, tam_y/2, coord_x+tam_x/2, coord_y+tam_y/2, (d)*(ALLEGRO_PI/2), 0);
+
 }
 
 void coche::move(int dir){
+
     d=0;
     if(dir){
         d=dir;
@@ -47,8 +52,16 @@ void coche::move(int dir){
     }
 }
 void coche::coche_change_size(const char filename[],float x, float y){
+//actualizar coordenadas
 
-  al_destroy_bitmap(coche_img);
+  coord_x=(coord_x/tam_x)*x;
+  coord_y=(coord_y/tam_y)*y;
+
+  tam_x = x;
+  tam_y = y;
+  if (dummy)
+    al_destroy_bitmap(coche_img);
   coche_img=load_bitmap_at_size(filename,  x, y);
+  dummy = true;
 
 }
