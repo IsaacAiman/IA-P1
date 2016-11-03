@@ -6,17 +6,15 @@ coche::coche()
     coord_y=0;
     d=0;
     coche_img=NULL;
-    t
+
 }
 
-coche::coche(const char filename[], unsigned x, unsigned y, float w, float h){
+coche::coche(const char filename[], float x, float y){
     coord_x=x;
     coord_y=y;
     d=0;
-    tam_w = w;
-    tam_h = h;
 
-    coche_img=load_bitmap_at_size(filename, tam_w, tam_h);
+    coche_change_size(filename,  x, y);
 }
 
 coche::~coche()
@@ -25,7 +23,7 @@ coche::~coche()
 }
 
 void coche::dibujar(){
-    al_draw_rotated_bitmap(coche_img, 25.0/2, 25.0/2, coord_x+12.5, coord_y+12.5, (d)*(ALLEGRO_PI/2), 0);
+    al_draw_rotated_bitmap(coche_img, coord_x/2, coord_y/2, coord_x+coord_x/2, coord_y+coord_y/2, (d)*(ALLEGRO_PI/2), 0);
 }
 
 void coche::move(int dir){
@@ -47,4 +45,10 @@ void coche::move(int dir){
             break;
         }
     }
+}
+void coche::coche_change_size(const char filename[],float x, float y){
+
+  al_destroy_bitmap(coche_img);
+  coche_img=load_bitmap_at_size(filename,  x, y);
+
 }

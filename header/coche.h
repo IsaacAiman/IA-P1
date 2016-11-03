@@ -13,14 +13,13 @@ class coche
         unsigned coord_x;
         unsigned coord_y;
         int d;
-        float tam_w;
-        float tam_h;
         ALLEGRO_BITMAP* coche_img;
 
     public:
         coche();
-        coche(const char filename[], unsigned x, unsigned y,  float tam_x, float tam_y);
+        coche(const char filename[],float x, float y);
         virtual ~coche();
+        void coche_change_size(const char filename[],float x, float y);
         void dibujar();
         void move(int dir);
 

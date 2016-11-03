@@ -143,6 +143,8 @@ int main(int argc, char **argv)
           al_destroy_bitmap(end);
           wall = load_bitmap_at_size("./images/00_0.png", tam_w, tam_h);
           end = load_bitmap_at_size("./images/00_3.png",  tam_w, tam_h);
+          if (car_bool)
+            car->coche_change_size("./images/00_1.png", tam_w, tam_h);
         }
 
 
@@ -161,11 +163,9 @@ int main(int argc, char **argv)
                 int obs_x = x/tam_w;
                 int obs_y = y/tam_h;
 
-
-
                 if (!obstaculos[obs_x][obs_y] && end_bool && !car_bool){
                     car_bool=true;
-                    car = new coche("./images/00_1.png", x, y, tam_w, tam_h);
+                    car = new coche("./images/00_1.png", tam_w, tam_h);
                 }
                 if (!obstaculos[obs_x][obs_y] && !car_bool){
                     end_bool=true;
