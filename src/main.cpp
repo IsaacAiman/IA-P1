@@ -18,6 +18,9 @@ int main(int argc, char **argv)
     const unsigned W_HEIGHT=atoi(argv[2]);
     const unsigned OBS_POP=atoi(argv[3]);
 
+    float tam_w= 25;
+    float tam_h = 25;
+
 
     ALLEGRO_DISPLAY *display = NULL;
     ALLEGRO_BITMAP *wall =NULL;
@@ -77,7 +80,10 @@ int main(int argc, char **argv)
       return -1;
     }
 
-    display = al_create_display(25*W_WIDTH, 25*W_HEIGHT);
+    al_set_new_display_flags(ALLEGRO_WINDOWED);
+    al_set_new_display_flags(ALLEGRO_RESIZABLE);
+    display = al_create_display(500, 500);
+
     if(!display) {
         fprintf(stderr, "Fallo al crear la pantalla!\n");
         return -1;
@@ -123,6 +129,23 @@ int main(int argc, char **argv)
         ALLEGRO_EVENT ev;
         al_wait_for_event(event_queue, &ev);
 
+
+        al_acknowledge_resize(display);
+        if (ev.type == ALLEGRO_EVENT_DISPLAY_RESIZE){
+          std::cout << al_get_display_width(display) << std::endl;
+          std::cout << al_get_display_height(display) << std::endl;
+          float w = al_get_display_width(display);
+          float h = al_get_display_height(display);
+
+          tam_w = w/W_WIDTH;
+          tam_h =  h/W_HEIGHT;
+          al_destroy_bitmap(wall);
+          al_destroy_bitmap(end);
+          wall = load_bitmap_at_size("./images/00_0.png", tam_w, tam_h);
+          end = load_bitmap_at_size("./images/00_3.png",  tam_w, tam_h);
+        }
+
+
         if(ev.type == ALLEGRO_EVENT_TIMER) {
             redraw = true;
         }
@@ -132,17 +155,22 @@ int main(int argc, char **argv)
         if (ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN) {
 
             if (ev.mouse.button & 1 ){
-                int x = (ev.mouse.x/25)*25;
-                int y= (ev.mouse.y/25)*25;
+                int x = (ev.mouse.x);
+                int y = (ev.mouse.y);
 
-                if (!obstaculos[x/25][y/25] && end_bool && !car_bool){
+                int obs_x = x/tam_w;
+                int obs_y = y/tam_h;
+
+
+
+                if (!obstaculos[obs_x][obs_y] && end_bool && !car_bool){
                     car_bool=true;
-                    car = new coche("./images/00_1.png", x, y);
+                    car = new coche("./images/00_1.png", x, y, tam_w, tam_h);
                 }
-                if (!obstaculos[x/25][y/25] && !car_bool){
+                if (!obstaculos[obs_x][obs_y] && !car_bool){
                     end_bool=true;
-                    x_end = x;
-                    y_end = y;
+                    x_end = obs_x;
+                    y_end = obs_y;
                 }
             }
         }
@@ -153,7 +181,7 @@ int main(int argc, char **argv)
             for(int i=0; i<W_WIDTH; i++){
                 for(int j=0; j<W_HEIGHT; j++){
                     if(obstaculos[i][j]){
-                        al_draw_bitmap(wall,25*i,25*j,0);
+                        al_draw_bitmap(wall,tam_w*i,tam_h*j,0);
                     }
                 }
             }
@@ -163,7 +191,7 @@ int main(int argc, char **argv)
             }
 
             if ((end_bool)&&(x_end>=0)&&(y_end>=0))
-                al_draw_bitmap(end,x_end,y_end,0);
+                al_draw_bitmap(end,x_end*tam_w,y_end*tam_h,0);
 
 
             al_flip_display();

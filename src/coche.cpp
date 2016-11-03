@@ -6,13 +6,17 @@ coche::coche()
     coord_y=0;
     d=0;
     coche_img=NULL;
+    t
 }
 
-coche::coche(const char filename[], unsigned x, unsigned y){
+coche::coche(const char filename[], unsigned x, unsigned y, float w, float h){
     coord_x=x;
     coord_y=y;
     d=0;
-    coche_img=load_bitmap_at_size(filename, 25, 25);
+    tam_w = w;
+    tam_h = h;
+
+    coche_img=load_bitmap_at_size(filename, tam_w, tam_h);
 }
 
 coche::~coche()
