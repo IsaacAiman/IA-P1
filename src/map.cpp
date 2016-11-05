@@ -15,17 +15,16 @@ map::map()
         }
     }
 
-    std::cout<<cells[0][0];
 
     std::srand(time(NULL));
-
-    for(unsigned i=0; i<cells_width; i++){
-        for(unsigned j=0; j<cells_height; j++){
-            unsigned ran_aux = rand() % 100;
-            if(ran_aux<obs_prob)
-                cells[i][j]=MURO;
+    if(!from_scratch)
+        for(unsigned i=0; i<cells_width; i++){
+            for(unsigned j=0; j<cells_height; j++){
+                unsigned ran_aux = rand() % 100;
+                if(ran_aux<obs_prob)
+                    cells[i][j]=MURO;
+            }
         }
-    }
 
     car=NULL;
     final=NULL;

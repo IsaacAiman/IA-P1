@@ -1,42 +1,57 @@
-#include <stdio.h>
 
 #include "../header/coche.h"
 #include "../header/common.hpp"
 #include "../header/map.hpp"
+#include "../header/enviroment.hpp"
 
-const float FPS = 30;
 unsigned cells_width;
 unsigned cells_height;
 unsigned obs_prob;
+int each_pixel_height;
+int each_pixel_width;
+float proporcion;
+bool from_scratch;
 
 int main(int argc, char **argv)
 {
-    if((argc<4)||(argc>4)){
+    if((argc<5)||(argc>5)){
         std::cerr<<"Número de argumentos incorrecto"<<std::endl<<"./coche TAM_X TAM_Y PORCENTAJE_OBSTÁCULOS\n";
         return -1;
     }
 
-
-    cells_height=atoi(argv[1]);
-    cells_width=atoi(argv[2]);
-    std::cout<<cells_width;
+    cells_height=atoi(argv[2]);
+    cells_width=atoi(argv[1]);
     obs_prob=atoi(argv[3]);
-    int each_pixel_width=pixels_width/cells_width;
-    int each_pixel_height=pixels_height/cells_height;
+    proporcion=(cells_width+0.0)/(cells_height+0.0);
+    from_scratch=atoi(argv[4]);
+    std::cout<<from_scratch;
 
-    ALLEGRO_DISPLAY *display = NULL;
-    ALLEGRO_BITMAP *wall =NULL;
-    ALLEGRO_BITMAP *end =NULL;
-    ALLEGRO_BITMAP *carimg=NULL;
-    ALLEGRO_EVENT_QUEUE *event_queue = NULL;
-    ALLEGRO_TIMER *timer = NULL;
+    if(proporcion<=1){
+        pixels_height=500;
+        pixels_width=(500*proporcion);
+    }
+    else{
+        pixels_width=500;
+        pixels_height=(500/proporcion);
+    }
+    each_pixel_width=pixels_width/cells_width;
+    each_pixel_height=pixels_height/cells_height;
+
+    bool error=false;
+    enviroment entorno(error);
+    if(error)
+        return -1;
+    entorno.main();
+
+    return false;
+
+/*
     bool redraw = true;
     bool car_bool=false;
     bool end_bool=false;
 
+
     map mapa;
-
-
 
     if(!al_init()) {
         fprintf(stderr, "Fallo al inciiar la librer�a gr�fica!!\n");
@@ -70,7 +85,7 @@ int main(int argc, char **argv)
 
     al_set_new_display_flags(ALLEGRO_WINDOWED);
     al_set_new_display_flags(ALLEGRO_RESIZABLE);
-    display = al_create_display(500, 500);
+    display = al_create_display(pixels_width, pixels_height);
 
     if(!display) {
         fprintf(stderr, "Fallo al crear la pantalla!\n");
@@ -111,7 +126,6 @@ int main(int argc, char **argv)
     al_flip_display();
 
     int count=0;
-    int current_direction=2;
     while(1)
     {
         if(0==(count=count%25)){
@@ -210,6 +224,9 @@ int main(int argc, char **argv)
     al_destroy_display(display);
     al_destroy_bitmap(wall);
     al_destroy_bitmap(end);
+    al_destroy_bitmap(carimg);
     al_destroy_event_queue(event_queue);
+
+    */
     return 0;
 }
