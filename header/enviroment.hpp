@@ -12,7 +12,7 @@ class enviroment
     public:
         enviroment(bool &error);
         virtual ~enviroment();
-        void main();
+        void principal();
 
     private:
         map mapa;

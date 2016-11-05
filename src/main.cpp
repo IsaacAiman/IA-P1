@@ -41,7 +41,7 @@ int main(int argc, char **argv)
     enviroment entorno(error);
     if(error)
         return -1;
-    entorno.main();
+    entorno.principal();
 
     return false;
 

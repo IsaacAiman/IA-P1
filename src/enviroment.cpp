@@ -1,8 +1,7 @@
-#include "enviroment.hpp"
+#include "../header/enviroment.hpp"
 
 enviroment::enviroment(bool &error)
 {
-    mapa;
     car_bool=false;
     end_bool=false;
     keyboard_status=0;
@@ -121,7 +120,7 @@ void enviroment::draw_map(){
     al_flip_display();
 }
 
-void enviroment::main(){
+void enviroment::principal(){
     bool keep=true;
     do{
         keep=events();
@@ -190,7 +189,7 @@ bool enviroment::events(){
             }
         }
     }
-    else if(ev.type=ALLEGRO_EVENT_KEY_DOWN){
+    else if(ev.type==ALLEGRO_EVENT_KEY_DOWN){
         if(ev.keyboard.keycode==ALLEGRO_KEY_M){
             keyboard_status=PONIENDOMUROS;
             std::cout<<"hi";
