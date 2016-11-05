@@ -1,31 +1,27 @@
+
 #ifndef COCHE_H
 #define COCHE_H
 
 
 
 #include <iostream>
-#include "../header/aux_func.hpp"
+#include "../header/common.hpp"
 
 
 class coche
 {
     private:
-        float coord_x;
-        float coord_y;
-        float tam_x;
-        float tam_y;
+        unsigned coord_x;
+        unsigned coord_y;
         int d;
-        bool dummy;
-        ALLEGRO_BITMAP* coche_img;
 
     public:
         coche();
-        coche(const char filename[],float x, float y, float pos_x, float pos_y);
+        coche(unsigned x, unsigned y);
         virtual ~coche();
-        void coche_change_size(const char filename[],float x, float y);
-        void dibujar();
-        void move(int dir);
-
+        short get_x();
+        short get_y();
+        //void move(int dir);
 };
 
 #endif // COCHE_H

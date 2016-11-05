@@ -1,4 +1,4 @@
-#include "../header/aux_func.hpp"
+#include "../header/common.hpp"
 
 ALLEGRO_BITMAP *load_bitmap_at_size(const char *filename, int w, int h)
 {
@@ -30,4 +30,9 @@ ALLEGRO_BITMAP *load_bitmap_at_size(const char *filename, int w, int h)
     al_destroy_bitmap(loaded_bmp);
 
     return resized_bmp;
+
+
 }
+
+int pixels_width=500;
+int pixels_height=500;

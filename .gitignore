@@ -4,3 +4,8 @@ coche.dSYM
 coche
 obj/
 bin/
+*.cbp
+*.layout
+*.depend
+*.log
+
