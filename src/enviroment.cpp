@@ -137,6 +137,11 @@ bool enviroment::events(){
 
     al_acknowledge_resize(display);
     if (ev.type == ALLEGRO_EVENT_DISPLAY_RESIZE){
+        al_acknowledge_resize(display);
+    if (ev.type == ALLEGRO_EVENT_DISPLAY_RESIZE){
+        int x;
+        int y;
+        al_get_window_position(display,&x,&y);
         float w = al_get_display_width(display);
         float h = al_get_display_height(display);
 
@@ -149,10 +154,13 @@ bool enviroment::events(){
             w=h*proporcion;
         }
         al_resize_display(display,w,h);
+        al_set_window_position(display,x,y);
         each_pixel_width = w/cells_width;
         each_pixel_height =  h/cells_height;
         pixels_width=w;
         pixels_height=h;
+
+    }
 
     }
 
