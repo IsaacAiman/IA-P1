@@ -30,8 +30,6 @@ ALLEGRO_BITMAP *load_bitmap_at_size(const char *filename, int w, int h)
     al_destroy_bitmap(loaded_bmp);
 
     return resized_bmp;
-
-
 }
 
 int pixels_width=500;

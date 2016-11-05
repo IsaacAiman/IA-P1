@@ -21,7 +21,6 @@ int main(int argc, char **argv)
     cells_width=atoi(argv[2]);
     std::cout<<cells_width;
     obs_prob=atoi(argv[3]);
-
     int each_pixel_width=pixels_width/cells_width;
     int each_pixel_height=pixels_height/cells_height;
 
@@ -86,9 +85,9 @@ int main(int argc, char **argv)
     al_clear_to_color(al_map_rgb(0,0,0));
 
 
-    wall = load_bitmap_at_size("./images/00_0.png", each_pixel_width, each_pixel_height);
-    end = load_bitmap_at_size("./images/00_3.png", each_pixel_width, each_pixel_height);
-    carimg = load_bitmap_at_size("./images/00_1.png", each_pixel_width, each_pixel_height);
+    wall = al_load_bitmap("./images/00_0.png");
+    end = al_load_bitmap("./images/00_3.png");
+    carimg = al_load_bitmap("./images/00_1.png");
 
     if((!wall) || (!end)) {
         al_show_native_message_box(display, "Error", "Error", "Failed to load image!",
@@ -123,23 +122,28 @@ int main(int argc, char **argv)
         ALLEGRO_EVENT ev;
         al_wait_for_event(event_queue, &ev);
 
-        /*
+
         al_acknowledge_resize(display);
         if (ev.type == ALLEGRO_EVENT_DISPLAY_RESIZE){
-          float w = al_get_display_width(display);
-          float h = al_get_display_height(display);
+            float w = al_get_display_width(display);
+            float h = al_get_display_height(display);
 
-          tam_w = w/W_WIDTH;
-          tam_h =  h/W_HEIGHT;
-          al_destroy_bitmap(wall);
-          al_destroy_bitmap(end);
-          wall = load_bitmap_at_size("./images/00_0.png", tam_w, tam_h);
-          end = load_bitmap_at_size("./images/00_3.png",  tam_w, tam_h);
-          if (car_bool)
-            car->coche_change_size("./images/00_1.png", tam_w, tam_h);
+            if(w!=pixels_width){
+                al_resize_display(display,w,w);
+                h=w;
+            }
+            else{
+                al_resize_display(display,h,h);
+                w=h;
+            }
+
+            each_pixel_width = w/cells_width;
+            each_pixel_height =  h/cells_height;
+
+            al_clear_to_color(al_map_rgb(0,0,0));
         }
 
-        */
+
 
 
         if(ev.type == ALLEGRO_EVENT_TIMER) {
@@ -178,19 +182,23 @@ int main(int argc, char **argv)
                     aux.x=i;
                     aux.y=j;
                     if(mapa.kind_of_celda(aux)==MURO){
-                        al_draw_bitmap(wall,each_pixel_width*i,each_pixel_height*j,0);
+                        al_draw_scaled_bitmap(wall,
+                        0, 0, al_get_bitmap_width(wall), al_get_bitmap_height(wall),
+                        i*each_pixel_width, j*each_pixel_height, each_pixel_width, each_pixel_height, 0);
                     }
                 }
             }
 
             if(car_bool){
                 celda aux=mapa.get_pos_coche();
-                al_draw_bitmap(carimg,aux.x*each_pixel_width,aux.y*each_pixel_height,0);
+                al_draw_scaled_bitmap(carimg,0, 0, al_get_bitmap_width(carimg), al_get_bitmap_height(carimg),
+                aux.x*each_pixel_width, aux.y*each_pixel_height, each_pixel_width, each_pixel_height, 0);
             }
 
             if ((end_bool)){
                 celda aux=mapa.get_pos_final();
-                al_draw_bitmap(end,aux.x*each_pixel_width,aux.y*each_pixel_height,0);
+                al_draw_scaled_bitmap(end,0, 0, al_get_bitmap_width(end), al_get_bitmap_height(end),
+                aux.x*each_pixel_width, aux.y*each_pixel_height, each_pixel_width, each_pixel_height, 0);
             }
 
             al_flip_display();
