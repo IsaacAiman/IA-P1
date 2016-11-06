@@ -27,12 +27,12 @@ int main(int argc, char **argv)
     std::cout<<from_scratch;
 
     if(proporcion<=1){
-        pixels_height=500;
+        pixels_height=550;
         pixels_width=(500*proporcion);
     }
     else{
         pixels_width=500;
-        pixels_height=(500/proporcion);
+        pixels_height=(500/proporcion)+50;
     }
     each_pixel_width=pixels_width/cells_width;
     each_pixel_height=pixels_height/cells_height;

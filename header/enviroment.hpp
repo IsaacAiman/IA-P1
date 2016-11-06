@@ -4,6 +4,9 @@
 #include "common.hpp"
 #include "map.hpp"
 #include <stdio.h>
+#include <allegro5/allegro_font.h>
+#include <allegro5/allegro_ttf.h>
+
 
 const float FPS = 30;
 
@@ -23,6 +26,7 @@ class enviroment
         ALLEGRO_BITMAP *person=NULL;
         ALLEGRO_EVENT_QUEUE *event_queue = NULL;
         ALLEGRO_TIMER *timer = NULL;
+        ALLEGRO_FONT *fuente =NULL;
         bool car_bool;
         bool end_bool;
         int keyboard_status;

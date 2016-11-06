@@ -32,6 +32,15 @@ enviroment::enviroment(bool &error)
         error=true;
     }
 
+    al_init_font_addon();
+
+    if(!al_init_ttf_addon()) {
+        al_show_native_message_box(display, "Error", "Error", "Failed to initialize al_init_ttf_addon!",
+                                    NULL, ALLEGRO_MESSAGEBOX_ERROR);
+        error=true;
+    }
+
+
     if (!al_install_mouse()){
       fprintf(stderr, "Fallo al instalar controlador de ratón!\n");
       error=true;
@@ -65,7 +74,10 @@ enviroment::enviroment(bool &error)
     carimg = al_load_bitmap("./images/00_1.png");
     person = al_load_bitmap("./images/00_2.png");
 
+    fuente= al_load_ttf_font("./fonts/OpenSans-Regular.ttf", 16,0);
+
     al_flip_display();
+
 
     if((!wall) || (!end) || (!carimg)) {
         al_show_native_message_box(display, "Error", "Error", "Failed to load image!",
@@ -84,6 +96,7 @@ enviroment::~enviroment()
     al_destroy_bitmap(end);
     al_destroy_bitmap(carimg);
     al_destroy_event_queue(event_queue);
+    al_destroy_font(fuente);
 }
 
 void enviroment::draw_map(){
@@ -95,12 +108,12 @@ void enviroment::draw_map(){
             if(mapa.kind_of_celda(aux)==MURO){
                 al_draw_scaled_bitmap(wall,
                 0, 0, al_get_bitmap_width(wall), al_get_bitmap_height(wall),
-                i*each_pixel_width, j*each_pixel_height, each_pixel_width, each_pixel_height, 0);
+                i*each_pixel_width, j*each_pixel_height+50, each_pixel_width, each_pixel_height, 0);
             }
             else if(mapa.kind_of_celda(aux)==PERSONA){
                 al_draw_scaled_bitmap(person,
                 0, 0, al_get_bitmap_width(person), al_get_bitmap_height(person),
-                i*each_pixel_width, j*each_pixel_height, each_pixel_width, each_pixel_height, 0);
+                i*each_pixel_width, j*each_pixel_height+50, each_pixel_width, each_pixel_height, 0);
             }
         }
     }
@@ -108,16 +121,15 @@ void enviroment::draw_map(){
     if(car_bool){
         celda aux=mapa.get_pos_coche();
         al_draw_scaled_bitmap(carimg,0, 0, al_get_bitmap_width(carimg), al_get_bitmap_height(carimg),
-        aux.x*each_pixel_width, aux.y*each_pixel_height, each_pixel_width, each_pixel_height, 0);
+        aux.x*each_pixel_width, aux.y*each_pixel_height+50, each_pixel_width, each_pixel_height, 0);
     }
 
     if ((end_bool)){
         celda aux=mapa.get_pos_final();
         al_draw_scaled_bitmap(end,0, 0, al_get_bitmap_width(end), al_get_bitmap_height(end),
-        aux.x*each_pixel_width, aux.y*each_pixel_height, each_pixel_width, each_pixel_height, 0);
+        aux.x*each_pixel_width, aux.y*each_pixel_height+50, each_pixel_width, each_pixel_height, 0);
     }
 
-    al_flip_display();
 }
 
 void enviroment::principal(){
@@ -137,8 +149,6 @@ bool enviroment::events(){
 
     al_acknowledge_resize(display);
     if (ev.type == ALLEGRO_EVENT_DISPLAY_RESIZE){
-        al_acknowledge_resize(display);
-    if (ev.type == ALLEGRO_EVENT_DISPLAY_RESIZE){
         int x;
         int y;
         al_get_window_position(display,&x,&y);
@@ -146,14 +156,12 @@ bool enviroment::events(){
         float h = al_get_display_height(display);
 
         if(w!=pixels_width){
-            al_resize_display(display,w,w*proporcion);
             h=w/proporcion;
         }
         else{
-            al_resize_display(display,h,h);
             w=h*proporcion;
         }
-        al_resize_display(display,w,h);
+        al_resize_display(display,w,h+50);
         al_set_window_position(display,x,y);
         each_pixel_width = w/cells_width;
         each_pixel_height =  h/cells_height;
@@ -162,45 +170,45 @@ bool enviroment::events(){
 
     }
 
-    }
-
     if(ev.type == ALLEGRO_EVENT_TIMER) {
         draw_map();
+        draw_text();
+        al_flip_display();
     }
     else if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
         keep=false;
     }
     else if (ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN) {
-        std::cout<<keyboard_status;
         if (ev.mouse.button & 1 ){
             int x = (ev.mouse.x);
-            int y = (ev.mouse.y);
+            int y = (ev.mouse.y)-50;
 
             unsigned obs_x = x/each_pixel_width;
             unsigned obs_y = y/each_pixel_height;
             celda aux{obs_x,obs_y};
 
-            if(keyboard_status==PONIENDOPERSONAS){
-                mapa.modify_cell(aux, PERSONA);
-            }
-            if(keyboard_status==PONIENDOMUROS){
-                mapa.modify_cell(aux, MURO);
-            }
+            if(aux.x<cells_width && aux.y<cells_height && y>=0 ){
+                if(keyboard_status==PONIENDOPERSONAS){
+                    mapa.modify_cell(aux, PERSONA);
+                }
+                if(keyboard_status==PONIENDOMUROS){
+                    mapa.modify_cell(aux, MURO);
+                }
 
-            if ((MURO!=mapa.kind_of_celda(aux)) && !(car_bool) && keyboard_status==PONIENDOCOCHE ){
-                car_bool=true;
-                mapa.create_car(aux);
-            }
-            if ((MURO!=mapa.kind_of_celda(aux)) && !(car_bool) && keyboard_status==PONIENDOMETA){
-                end_bool=true;
-                mapa.create_end(aux);
+                if ((MURO!=mapa.kind_of_celda(aux)) && keyboard_status==PONIENDOCOCHE ){
+                    car_bool=true;
+                    mapa.create_car(aux);
+                }
+                if ((MURO!=mapa.kind_of_celda(aux)) && keyboard_status==PONIENDOMETA){
+                    end_bool=true;
+                    mapa.create_end(aux);
+                }
             }
         }
     }
     else if(ev.type==ALLEGRO_EVENT_KEY_DOWN){
         if(ev.keyboard.keycode==ALLEGRO_KEY_M){
             keyboard_status=PONIENDOMUROS;
-            std::cout<<"hi";
         }
         else if(ev.keyboard.keycode==ALLEGRO_KEY_G){
             keyboard_status=PONIENDOMETA;
@@ -218,4 +226,26 @@ bool enviroment::events(){
 
     return keep;
 
+}
+
+void enviroment::draw_text(){
+    al_draw_text(fuente, al_map_rgb(255,255,255), pixels_width/2, 0, ALLEGRO_ALIGN_CENTER, "Insertar: [p|g|c|m] Algoritmo: espacio");
+
+    switch(keyboard_status){
+        case PONIENDOMUROS:
+            al_draw_text(fuente, al_map_rgb(255,255,255), pixels_width/2, 20, ALLEGRO_ALIGN_CENTER, "Poniendo muros");
+            break;
+
+        case PONIENDOMETA:
+            al_draw_text(fuente, al_map_rgb(255,255,255), pixels_width/2, 20, ALLEGRO_ALIGN_CENTER, "Poniendo meta");
+            break;
+
+        case PONIENDOPERSONAS:
+            al_draw_text(fuente, al_map_rgb(255,255,255), pixels_width/2, 20, ALLEGRO_ALIGN_CENTER, "Poniendo personas");
+            break;
+
+        case PONIENDOCOCHE:
+            al_draw_text(fuente, al_map_rgb(255,255,255), pixels_width/2, 20, ALLEGRO_ALIGN_CENTER, "Poniendo el coche");
+            break;
+    }
 }
