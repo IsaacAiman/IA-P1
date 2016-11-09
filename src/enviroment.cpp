@@ -220,6 +220,12 @@ bool enviroment::events(){
         }
         else if(ev.keyboard.keycode==ALLEGRO_KEY_SPACE){
             //CORRE EL ALGORITMO
+            celda inicio = mapa.get_pos_coche();
+            node primer(mapa.get_pos_coche(), NULL, mapa.get_pos_final(),inicio);
+
+
+
+
         }
         else if(ev.keyboard.keycode==ALLEGRO_KEY_P){
             keyboard_status=PONIENDOPERSONAS;
@@ -251,4 +257,3 @@ void enviroment::draw_text(){
             break;
     }
 }
-

@@ -3,6 +3,7 @@
 
 #include "common.hpp"
 #include "map.hpp"
+#include "node.hpp"
 #include <stdio.h>
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
