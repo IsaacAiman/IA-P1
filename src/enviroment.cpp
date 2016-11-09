@@ -102,6 +102,7 @@ enviroment::~enviroment()
 void enviroment::draw_map(){
 
     al_clear_to_color(al_map_rgb(0,0,0));
+    al_hold_bitmap_drawing(true);
     for(unsigned i=0; i<cells_width; i++){
         for(unsigned j=0; j<cells_height; j++){
             celda aux{i,j};
@@ -129,6 +130,7 @@ void enviroment::draw_map(){
         al_draw_scaled_bitmap(end,0, 0, al_get_bitmap_width(end), al_get_bitmap_height(end),
         aux.x*each_pixel_width, aux.y*each_pixel_height+50, each_pixel_width, each_pixel_height, 0);
     }
+    al_hold_bitmap_drawing(false);
 
 }
 
@@ -136,7 +138,6 @@ void enviroment::principal(){
     bool keep=true;
     do{
         keep=events();
-        //draw_text();
     }while(keep);
 }
 
@@ -151,23 +152,23 @@ bool enviroment::events(){
     if (ev.type == ALLEGRO_EVENT_DISPLAY_RESIZE){
         int x;
         int y;
-        al_get_window_position(display,&x,&y);
+        al_get_window_position(display, &x, &y);
+
         float w = al_get_display_width(display);
         float h = al_get_display_height(display);
 
         if(w!=pixels_width){
-            h=w/proporcion;
+            h=(w/proporcion)+50;
         }
         else{
-            w=h*proporcion;
+            w=(h-50)*proporcion;
         }
-        al_resize_display(display,w,h+50);
+        al_resize_display(display,w,h);
         al_set_window_position(display,x,y);
         each_pixel_width = w/cells_width;
-        each_pixel_height =  h/cells_height;
+        each_pixel_height =  (h-50)/cells_height;
         pixels_width=w;
         pixels_height=h;
-
     }
 
     if(ev.type == ALLEGRO_EVENT_TIMER) {
@@ -179,6 +180,7 @@ bool enviroment::events(){
         keep=false;
     }
     else if (ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN) {
+            std::cout<<"holi"<<std::endl;
         if (ev.mouse.button & 1 ){
             int x = (ev.mouse.x);
             int y = (ev.mouse.y)-50;
@@ -249,3 +251,4 @@ void enviroment::draw_text(){
             break;
     }
 }
+

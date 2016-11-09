@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
+#include <allegro5/allegro_primitives.h>
 
 
 const float FPS = 30;
@@ -27,8 +28,11 @@ class enviroment
         ALLEGRO_EVENT_QUEUE *event_queue = NULL;
         ALLEGRO_TIMER *timer = NULL;
         ALLEGRO_FONT *fuente =NULL;
+
+        bool primitivas;
         bool car_bool;
         bool end_bool;
+
         int keyboard_status;
 
         void draw_map();
