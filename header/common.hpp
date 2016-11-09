@@ -11,6 +11,9 @@
 #define VACIO 0
 #define PERSONA 2
 #define VISITADA 3
+#define META 4
+#define COCHE 5
+#define TRAYECTORIA 6
 
 #define PONIENDOMUROS 2
 #define PONIENDOPERSONAS 3
@@ -23,6 +26,7 @@
 #define COLORTRAYECTORIA al_map_rgb(255,0,0)
 #define COLORMETA al_map_rgb(255,255,255)
 #define COLORPERSONA al_map_rgb(100,255,255)
+#define COLORVACIO al_map_rgb (0,0,0)
 
 ALLEGRO_BITMAP *load_bitmap_at_size(const char *filename, int w, int h);
 ALLEGRO_BITMAP* modify_size(ALLEGRO_BITMAP * origen, int width, int height);

@@ -38,6 +38,7 @@ class enviroment
         void draw_map();
         bool events();
         void draw_text();
+        void draw_celda(celda cell);
 };
 
 #endif // ENVIROMENT_H

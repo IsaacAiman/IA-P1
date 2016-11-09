@@ -32,6 +32,12 @@ enviroment::enviroment(bool &error)
         error=true;
     }
 
+    if(!al_init_primitives_addon()){
+        al_show_native_message_box(display, "Error", "Error", "Failed to initialize al_init_primitives_addon!",
+                                    NULL, ALLEGRO_MESSAGEBOX_ERROR);
+        error=true;
+    }
+
     al_init_font_addon();
 
     if(!al_init_ttf_addon()) {
@@ -132,10 +138,17 @@ void enviroment::draw_map(){
     }
     al_hold_bitmap_drawing(false);
 
+    al_flip_display();
+
+
 }
 
 void enviroment::principal(){
     bool keep=true;
+    draw_map();
+    draw_text();
+    al_flip_display();
+
     do{
         keep=events();
     }while(keep);
@@ -143,13 +156,15 @@ void enviroment::principal(){
 
 
 bool enviroment::events(){
+    bool draw=false;
     bool keep=true;
+
     ALLEGRO_EVENT ev;
     al_wait_for_event(event_queue, &ev);
 
 
-    al_acknowledge_resize(display);
     if (ev.type == ALLEGRO_EVENT_DISPLAY_RESIZE){
+        al_acknowledge_resize(display);
         int x;
         int y;
         al_get_window_position(display, &x, &y);
@@ -169,12 +184,13 @@ bool enviroment::events(){
         each_pixel_height =  (h-50)/cells_height;
         pixels_width=w;
         pixels_height=h;
+
+        draw_map();
+        draw_text();
     }
 
     if(ev.type == ALLEGRO_EVENT_TIMER) {
-        draw_map();
-        draw_text();
-        al_flip_display();
+
     }
     else if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
         keep=false;
@@ -192,18 +208,33 @@ bool enviroment::events(){
             if(aux.x<cells_width && aux.y<cells_height && y>=0 ){
                 if(keyboard_status==PONIENDOPERSONAS){
                     mapa.modify_cell(aux, PERSONA);
+                    draw_celda(aux);
+                    draw=true;
                 }
                 if(keyboard_status==PONIENDOMUROS){
                     mapa.modify_cell(aux, MURO);
+                    draw_celda(aux);
+                    draw=true;
                 }
 
-                if ((MURO!=mapa.kind_of_celda(aux)) && keyboard_status==PONIENDOCOCHE ){
+                if ((MURO!=mapa.kind_of_celda(aux)) && keyboard_status==PONIENDOCOCHE && !car_bool ){
                     car_bool=true;
                     mapa.create_car(aux);
+                    mapa.modify_cell(aux, COCHE);
+                    draw_celda(aux);
+                    draw=true;
                 }
                 if ((MURO!=mapa.kind_of_celda(aux)) && keyboard_status==PONIENDOMETA){
+                    if(end_bool){
+                        mapa.modify_cell(mapa.get_pos_final(), VACIO);
+                        draw_celda(mapa.get_pos_final());
+                        std::cout<<mapa.kind_of_celda(mapa.get_pos_final());
+                    }
                     end_bool=true;
                     mapa.create_end(aux);
+                    mapa.modify_cell(aux, META);
+                    draw_celda(aux);
+                    draw=true;
                 }
             }
         }
@@ -224,6 +255,12 @@ bool enviroment::events(){
         else if(ev.keyboard.keycode==ALLEGRO_KEY_P){
             keyboard_status=PONIENDOPERSONAS;
         }
+        draw_text();
+        draw=1;
+    }
+
+    if(draw){
+        al_flip_display();
     }
 
     return keep;
@@ -231,6 +268,7 @@ bool enviroment::events(){
 }
 
 void enviroment::draw_text(){
+    al_draw_filled_rectangle(0,0, pixels_width, 50, COLORVACIO);
     al_draw_text(fuente, al_map_rgb(255,255,255), pixels_width/2, 0, ALLEGRO_ALIGN_CENTER, "Insertar: [p|g|c|m] Algoritmo: espacio");
 
     switch(keyboard_status){
@@ -252,3 +290,36 @@ void enviroment::draw_text(){
     }
 }
 
+void enviroment::draw_celda(celda aux){
+    int kind = mapa.kind_of_celda(aux);
+
+    switch(kind){
+        case MURO:
+            al_draw_scaled_bitmap(wall,
+            0, 0, al_get_bitmap_width(wall), al_get_bitmap_height(wall),
+            aux.x*each_pixel_width, aux.y*each_pixel_height+50, each_pixel_width, each_pixel_height, 0);
+            break;
+        case PERSONA:
+            al_draw_scaled_bitmap(person,
+            0, 0, al_get_bitmap_width(person), al_get_bitmap_height(person),
+            aux.x*each_pixel_width, aux.y*each_pixel_height+50, each_pixel_width, each_pixel_height, 0);
+            break;
+        case META:
+            al_draw_scaled_bitmap(end,0, 0, al_get_bitmap_width(end), al_get_bitmap_height(end),
+            aux.x*each_pixel_width, aux.y*each_pixel_height+50, each_pixel_width, each_pixel_height, 0);
+            break;
+        case COCHE:
+            al_draw_scaled_bitmap(carimg,0, 0, al_get_bitmap_width(carimg), al_get_bitmap_height(carimg),
+            aux.x*each_pixel_width, aux.y*each_pixel_height+50, each_pixel_width, each_pixel_height, 0);
+            break;
+        case VACIO:
+            al_draw_filled_rectangle(aux.x*each_pixel_width, aux.y*each_pixel_height+50, each_pixel_width*aux.x+each_pixel_width, each_pixel_height*aux.y+each_pixel_height+50, COLORVACIO);
+            break;
+        case VISITADA:
+            al_draw_filled_rectangle(aux.x*each_pixel_width, aux.y*each_pixel_height+50, each_pixel_width*aux.x+each_pixel_width, each_pixel_height*aux.y+each_pixel_height+50, COLORVISITADO);
+            break;
+        case TRAYECTORIA:
+            al_draw_filled_rectangle(aux.x*each_pixel_width, aux.y*each_pixel_height+50, each_pixel_width*aux.x+each_pixel_width, each_pixel_height*aux.y+each_pixel_height+50, COLORTRAYECTORIA);
+            break;
+    }
+}
