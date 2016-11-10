@@ -1,9 +1,9 @@
 #include "../header/node.hpp"
 
 
-node::node (celda n, node* p, celda fin, celda inicio){
+node::node (celda posicion, node* p, celda fin, celda inicio){
 
-  pos =n;
+  pos = posicion;
   parent = p;
   end = fin;
   start = inicio;
@@ -15,22 +15,22 @@ node::node (celda n, node* p, celda fin, celda inicio){
 node::~node (){
 
 }
-celda node::get_pos(void){
+celda node::get_pos(void) const{
 
   return pos;
 
 }
-int node::get_h(void){
+int node::get_h(void) const{
 
   return h;
 
 }
-int node::get_g(void){
+int node::get_g(void) const{
 
   return g;
 
 }
-int node::get_f(void) {
+int node::get_f(void) const{
 
   return f;
 
@@ -41,37 +41,27 @@ node* node::get_parent(void){
 
 }
 
-bool operator == (node n1, node n2){
+bool operator == ( node n1, node n2){
   if (n1.get_f() == n2.get_f())
     return true;
   return false;
 }
-bool operator > (node n1, node n2){
-  if (n1.get_f() > n2.get_f())
+bool operator < ( node n1, node n2){
+  if (n1.get_f() < n2.get_f())
     return true;
   return false;
 }
 void node::calcular_g(void){
 
-  int op1 = ((pos.y-start.y)*14) + (mahalanobis(pos,start) -(pos.y-start.y))*10;
-  int op2 = ((pos.x-start.x)*14) + (mahalanobis(pos,start) -(pos.x-start.x))*10;
-  if (op1<op2){
-    g=op1;
-  }
-  else{
-    g=op2;
-  }
+ g = manhattan(pos, start);
+ std::cout << "g: " << g << std::endl;
 }
+
 void node::calcular_h(void){
-  
-  int op1 = (pos.y-end.y*14) + (mahalanobis(pos,end) - (pos.y-end.y))*10;
-  int op2 = ((pos.x-end.x)*14) + (mahalanobis(pos,end) -(pos.x-end.x))*10;
-  if (op1<op2){
-    g=op1;
-  }
-  else{
-    g=op2;
-  }
+
+  h = manhattan(pos, end);
+  std::cout << "h: " << h << std::endl;
+
 }
 
 void node::calcular_f(void){
@@ -80,12 +70,8 @@ void node::calcular_f(void){
   std::cout << "f: " << f << std::endl;
 
 }
-int node::mahalanobis (celda x, celda y){
+int node::manhattan (celda x, celda y){
 
-  if ((x.x-y.x)<(x.y-y.y)){
-    return (x.x-y.x);
-  }
-  return (x.y-y.y);
-
+  return (abs(x.y-y.y) + abs(x.x-y.x));
 
 }

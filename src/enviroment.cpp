@@ -220,9 +220,10 @@ bool enviroment::events(){
         }
         else if(ev.keyboard.keycode==ALLEGRO_KEY_SPACE){
             //CORRE EL ALGORITMO
-            celda inicio = mapa.get_pos_coche();
-            node primer(mapa.get_pos_coche(), NULL, mapa.get_pos_final(),inicio);
+            //celda inicio = mapa.get_pos_coche();
+            //node primer(mapa.get_pos_coche(), NULL, mapa.get_pos_final(),inicio);
 
+            a_estrella busqueda(&mapa);
 
 
 

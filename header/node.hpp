@@ -3,6 +3,7 @@
 
 #include "common.hpp"
 #include <iostream>
+#include <cmath>
 
 class node {
 private:
@@ -14,21 +15,21 @@ private:
   int f;
   node* parent;
 public:
-  node (celda n, node* p, celda fin, celda inicio);
+  node (celda posicion, node* p, celda fin, celda inicio);
   ~node ();
-  celda get_pos(void);
-  int get_h(void);
-  int get_g(void);
-  int get_f(void) ;
+  celda get_pos(void) const;
+  int get_h(void) const;
+  int get_g(void) const;
+  int get_f(void) const;
   node* get_parent(void);
-  int mahalanobis (celda x, celda y);
+  int manhattan (celda x, celda y);
   void calcular_g(void);
   void calcular_h(void);
   void calcular_f(void);
 
 };
-bool operator == (node n1, node n2);
-bool operator > (node n1, node n2);
+bool operator == (node n1,  node n2);
+bool operator < ( node n1,  node n2);
 
 
 #endif // NODO_H
