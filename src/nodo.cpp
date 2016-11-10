@@ -1,6 +1,5 @@
 #include "../header/node.hpp"
 
-
 node::node (celda posicion, node* p, celda fin, celda inicio){
 
   pos = posicion;
@@ -18,6 +17,16 @@ node::~node (){
 celda node::get_pos(void) const{
 
   return pos;
+
+}
+celda node::get_end(void) const{
+
+  return end;
+
+}
+celda node::get_start(void) const{
+
+  return start;
 
 }
 int node::get_h(void) const{
@@ -41,8 +50,8 @@ node* node::get_parent(void){
 
 }
 
-bool operator == ( node n1, node n2){
-  if (n1.get_f() == n2.get_f())
+bool operator == ( node n1, node n2){ //dos nodos son iguales si están en la misma posición
+  if ((n1.get_pos().x == n2.get_pos().x) && (n1.get_pos().y == n2.get_pos().y))
     return true;
   return false;
 }
@@ -74,4 +83,17 @@ int node::manhattan (celda x, celda y){
 
   return (abs(x.y-y.y) + abs(x.x-y.x));
 
+}
+node node::operator = (node n1){
+
+  pos = n1.get_pos();
+  end = n1.get_end();
+  start = n1.get_start();
+  h = n1.get_h();
+  g = n1.get_g();
+  f = n1.get_f();
+  parent = get_parent();
+
+  std::cout << "asdad" << std::endl;
+  return *this;
 }
