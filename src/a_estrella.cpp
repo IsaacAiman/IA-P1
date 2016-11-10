@@ -19,90 +19,63 @@ a_estrella::~a_estrella (){
 void a_estrella::camino (void){
   node start(pos_inicio, NULL, pos_final, pos_inicio);
   node end(pos_final, NULL, pos_final, pos_inicio);
+  node current(start);
 
-  node current(pos_inicio, NULL, pos_final, pos_inicio);
-  std::multiset<node>::iterator it;
+  open.push_back(start);
 
-  open.insert(start);
   bool salida = false;
 
-  while(!salida){
-    //std::cout << "pos: "<<current.get_pos().x <<" "<< current.get_pos().y << std::endl;
-    it=open.begin();
-    current = *it;
-    open.erase(it);
-    closed.insert(current);
+  while(!salida && open.size()){
+    current = open[0];
     if (current == end){
       salida = true;
-    }else{
-      std::multiset<node> neighbours = vecinos(current);
-      std::multiset<node>::iterator it_aux;
-      for (it=neighbours.begin(); it!=neighbours.end(); ++it){
-        if (!((vecinos(*it).size() == 0) || *closed.find(*it) == *it)){
-          if ( ((*open.find(*it) == *it) && (*it < *open.find(*it))) || !(*open.find(*it) == *it) ){
-            //*it es el nodo vecino.
-            if ((*open.find(*it) == *it)){ //el nodo está en open.
-              open.erase(*open.find(*it)); //elimina el nodo de open.
-            }
-            open.insert(*it); //inserta el vecino (nuevo nodo, misma posición) en open.
-            //open.find(*it)->set_f(it->get_f());
-          }
-        }
-      }
-    }
-  }
-
-  std::cout << "fin del algoritmo" << std::endl;
-
-  salida = false;
-  node* padre = &current;
-  while (!salida){
-    std::cout << "current: "<<padre->get_pos().x <<" "<< padre->get_pos().y << std::endl;
-    if (padre->get_parent() != NULL){
-      std::cout << "asd" << std::endl;
-        padre = padre->get_parent();
     }
     else{
-      std::cout << "lll" << std::endl;
-      salida = true;
+      open.erase(open.begin());
+      std::cout << "open_size: "<< open.size() << std::endl;
+      insert_closed(current);
+      std::vector<node> neighbours = vecinos(current);
+      for (int i = 0; i<neighbours.size(); i++){
+        insert_open(neighbours[i]);
+      }
+
+      std::sort(open.begin(), open.end()); //ordenando vector open.
+
     }
   }
-  //std::multiset<node> contenedor = vecinos(padre);
 
-//std::multiset<node>::iterator it;
-/*
-std::cout <<"multiset size: " <<contenedor.size() << std::endl;
-for (it=contenedor.begin(); it!=contenedor.end(); ++it){
+  std::cout << "current: "<< current.get_pos().x << " " <<current.get_pos().y << std::endl;
+  std::cout << "fin del algoritmo" << std::endl;
 
-  std::cout << "x: " << it->get_pos().x<<" y: "<<it->get_pos().y<<std::endl;
-
-}*/
+  node *father;
+  father = &current;
+  salida = false;
 
 }
 
-std::multiset<node> a_estrella::vecinos (node vecino){
+std::vector<node> a_estrella::vecinos (node vecino){
 
   celda v = vecino.get_pos();
   int y = v.y;
   int x = v.x;
   celda aux;
-  std::multiset<node> neighbours;
+  std::vector<node> neighbours;
 
   if ((y-1)>=0){ //vecino de arriba
     aux.x = x;
     aux.y = y-1;
     if (mapa->kind_of_celda(aux)!=MURO){
       node vecino1(aux, &vecino, pos_final, pos_inicio);
-      neighbours.insert(vecino1);
+      neighbours.push_back(vecino1);
     }
   }
 
   if ((y+1)<cells_height){ //vecino de abajo
     aux.x = x;
     aux.y = y+1;
-    if (mapa->kind_of_celda(aux)!=MURO){
+    if (mapa->kind_of_celda(aux)!=MURO ){
       node vecino1(aux, &vecino, pos_final, pos_inicio);
-      neighbours.insert(vecino1);
+      neighbours.push_back(vecino1);
     }
   }
 
@@ -111,7 +84,7 @@ std::multiset<node> a_estrella::vecinos (node vecino){
     aux.y = y;
     if (mapa->kind_of_celda(aux)!=MURO){
       node vecino1(aux, &vecino, pos_final, pos_inicio);
-      neighbours.insert(vecino1);
+      neighbours.push_back(vecino1);
     }
   }
 
@@ -120,14 +93,78 @@ std::multiset<node> a_estrella::vecinos (node vecino){
     aux.y = y;
     if (mapa->kind_of_celda(aux)!=MURO){
       node vecino1(aux, &vecino, pos_final, pos_inicio);
-      neighbours.insert(vecino1);
+      neighbours.push_back(vecino1);
     }
   }
 
   return neighbours;
 }
-void dibujar_camino(std::multiset<node> n){
+void dibujar_camino(std::vector<node> n){
 
 
 
+}
+bool a_estrella::in_closed(node aux){
+
+  for (int i = 0; i<closed.size(); i++){
+    if (closed[i]==aux){
+      return true;
+    }
+  }
+  return false;
+}
+
+bool a_estrella::in_open(node aux){
+  for (int i = 0; i<open.size(); i++){
+    if (open[i]==aux){
+      return true;
+    }
+  }
+  return false;
+}
+
+int a_estrella::find_open(node aux){
+  for (int i = 0; i<open.size(); i++){
+    if (open[i]==aux){
+      return i;
+    }
+  }
+  return -1;
+}
+int a_estrella::find_closed(node aux){
+  for (int i = 0; i<closed.size(); i++){
+    if (closed[i]==aux){
+      return i;
+    }
+  }
+  return -1;
+}
+void a_estrella::insert_closed(node aux){
+  for (int i=0; i<closed.size(); i++){
+    if(aux==closed[i] && aux<closed[i]){
+      closed[i]=aux;
+    }
+  }
+  if (!in_closed(aux)){
+    closed.push_back(aux);
+  }
+}
+void a_estrella::insert_open(node aux){
+
+  if (in_closed(aux)){
+    if (closed[find_closed(aux)] < aux ){
+      std::cout << "find_closed" << std::endl;
+      return;
+    }
+  }
+  for (int i=0; i<open.size(); i++){
+    if(aux==open[i] && aux<open[i]){
+      node aux_ = open[i];
+      open[i]=aux;
+      insert_closed(aux_);
+    }
+  }
+  if (!in_open(aux)){
+    open.push_back(aux);
+  }
 }

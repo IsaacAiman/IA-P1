@@ -1,5 +1,24 @@
 #include "../header/node.hpp"
 
+node::node(void){
+  h = 0;
+  g = 0;
+  f = 0;
+  parent = NULL;
+
+}
+node::node(const node &n1){
+
+  pos = n1.get_pos();
+  end = n1.get_end();
+  start = n1.get_start();
+  h = n1.get_h();
+  g = n1.get_g();
+  f = n1.get_f();
+  parent = get_parent();
+
+}
+
 node::node (celda posicion, node* p, celda fin, celda inicio){
 
   pos = posicion;
@@ -49,6 +68,9 @@ node* node::get_parent(void){
   return parent;
 
 }
+void node::set_parent(node *n){
+  parent = n;
+}
 
 bool operator == ( node n1, node n2){ //dos nodos son iguales si están en la misma posición
   if ((n1.get_pos().x == n2.get_pos().x) && (n1.get_pos().y == n2.get_pos().y))
@@ -62,21 +84,29 @@ bool operator < ( node n1, node n2){
 }
 void node::calcular_g(void){
 
- g = manhattan(pos, start);
- std::cout << "g: " << g << std::endl;
+  if (parent!=NULL){
+    std::cout << "no soy cero" << std::endl;
+    std::cout << "soy: " << parent->get_g()+1<< std::endl;
+    g = parent->get_g()+1;
+  }
+  else{
+    std::cout << "soy cero" << std::endl;
+    g = 0;
+  }
+ //std::cout << "g: " << g << std::endl;
 }
 
 void node::calcular_h(void){
 
   h = manhattan(pos, end);
-  std::cout << "h: " << h << std::endl;
+  //std::cout << "h: " << h << std::endl;
 
 }
 
 void node::calcular_f(void){
 
   f = g+h;
-  std::cout << "f: " << f << std::endl;
+  //std::cout << "f: " << f << std::endl;
 
 }
 int node::manhattan (celda x, celda y){
@@ -94,6 +124,10 @@ node node::operator = (node n1){
   f = n1.get_f();
   parent = get_parent();
 
-  std::cout << "asdad" << std::endl;
   return *this;
+}
+void node::set_pos(celda position){
+
+  pos = position;
+
 }

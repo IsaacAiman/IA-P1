@@ -5,24 +5,29 @@
 #include "map.hpp"
 #include "node.hpp"
 #include "iostream"
-#include <set>
+#include <vector>
 
 class a_estrella {
 private:
   celda pos_inicio;
-  std::multiset<node> open;
-  std::multiset<node> closed;
+  std::vector<node> open;
+  std::vector<node> closed;
   map* mapa;
   celda pos_actual;
   celda pos_final;
-  //node current;
+  bool in_closed(node aux);
+  bool in_open(node aux);
+  int find_open(node aux);
+  int find_closed(node aux);
+  void insert_closed(node aux);
+  void insert_open(node aux);
 
 public:
   a_estrella (map *m);
   ~a_estrella ();
   void camino (void);
-  std::multiset<node> vecinos(node vecino); //calcula los vecinos
-  void dibujar_camino(std::multiset<node> n);
+  std::vector<node> vecinos(node vecino); //calcula los vecinos
+  void dibujar_camino(std::vector<node> n);
 };
 
 #endif // A_ESTRELLA_H

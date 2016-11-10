@@ -15,15 +15,19 @@ private:
   int f;
   node* parent;
 public:
+  node(void);
+  node(const node &n1);
   node (celda posicion, node* p, celda fin, celda inicio);
   ~node ();
   celda get_pos(void) const;
+  void set_pos(celda position);
   celda get_end(void) const;
   celda get_start(void) const;
   int get_h(void) const;
   int get_g(void) const;
   int get_f(void) const;
   node* get_parent(void);
+  void set_parent(node *n);
   int manhattan (celda x, celda y);
   void calcular_g(void);
   void calcular_h(void);

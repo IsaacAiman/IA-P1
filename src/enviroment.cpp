@@ -225,8 +225,6 @@ bool enviroment::events(){
 
             a_estrella busqueda(&mapa);
 
-
-
         }
         else if(ev.keyboard.keycode==ALLEGRO_KEY_P){
             keyboard_status=PONIENDOPERSONAS;
