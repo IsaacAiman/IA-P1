@@ -70,7 +70,8 @@ std::vector<node*> a_estrella::vecinos (node *vecino){
     if (mapa->kind_of_celda(aux)!=MURO){
       node * vecino1 = new node(aux, vecino, pos_final, pos_inicio);
       neighbours.push_back(vecino1);
-      mapa->modify_cell(aux, VISITADA);
+      if(mapa->kind_of_celda(aux)!=PERSONA)
+        mapa->modify_cell(aux, VISITADA);
     }
   }
 
@@ -80,7 +81,8 @@ std::vector<node*> a_estrella::vecinos (node *vecino){
     if (mapa->kind_of_celda(aux)!=MURO ){
         node * vecino1 = new node(aux, vecino, pos_final, pos_inicio);
       neighbours.push_back(vecino1);
-      mapa->modify_cell(aux, VISITADA);
+      if(mapa->kind_of_celda(aux)!=PERSONA)
+        mapa->modify_cell(aux, VISITADA);
     }
   }
 
@@ -90,7 +92,8 @@ std::vector<node*> a_estrella::vecinos (node *vecino){
     if (mapa->kind_of_celda(aux)!=MURO){
         node * vecino1 = new node(aux, vecino, pos_final, pos_inicio);
       neighbours.push_back(vecino1);
-      mapa->modify_cell(aux, VISITADA);
+      if(mapa->kind_of_celda(aux)!=PERSONA)
+        mapa->modify_cell(aux, VISITADA);
     }
   }
 
@@ -100,7 +103,8 @@ std::vector<node*> a_estrella::vecinos (node *vecino){
     if (mapa->kind_of_celda(aux)!=MURO){
         node * vecino1 = new node(aux, vecino, pos_final, pos_inicio);
       neighbours.push_back(vecino1);
-      mapa->modify_cell(aux, VISITADA);
+      if(mapa->kind_of_celda(aux)!=PERSONA)
+        mapa->modify_cell(aux, VISITADA);
     }
   }
 

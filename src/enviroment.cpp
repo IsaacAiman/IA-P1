@@ -228,28 +228,31 @@ bool enviroment::events(){
             keyboard_status=PONIENDOCOCHE;
         }
         else if(ev.keyboard.keycode==ALLEGRO_KEY_SPACE){
+            if(car_bool){
+                for(unsigned i=0; i<cells_width; i++){
+                    for(unsigned j=0; j<cells_height; j++){
+                        celda aux{i,j};
+                        if((mapa.kind_of_celda(aux)==TRAYECTORIA)||(mapa.kind_of_celda(aux)==VISITADA)){
+                            mapa.modify_cell(aux, VACIO);
+                        }
+                    }
+                }
+                a_estrella busqueda(&mapa);
+                if (!busqueda.camino()){
 
-            for(unsigned i=0; i<cells_width; i++){
-                for(unsigned j=0; j<cells_height; j++){
-                    celda aux{i,j};
-                    if((mapa.kind_of_celda(aux)==TRAYECTORIA)||(mapa.kind_of_celda(aux)==VISITADA)){
-                        mapa.modify_cell(aux, VACIO);
+                  al_show_native_message_box(display,"No hay solución","","Inténtelo de nuevo.",NULL,ALLEGRO_MESSAGEBOX_WARN);
+
+                }
+                path = busqueda.dibujar_camino();
+                for(int i=0; i<path.size()-1;i++){
+                    if(mapa.kind_of_celda(path[i])!=PERSONA){
+                        mapa.modify_cell(path[i], TRAYECTORIA);
                     }
                 }
             }
-
-
-            a_estrella busqueda(&mapa);
-            if (!busqueda.camino()){
-
-              al_show_native_message_box(display,"No hay solución","","Inténtelo de nuevo.",NULL,ALLEGRO_MESSAGEBOX_WARN);
-
+            else{
+                al_show_native_message_box(display,"Introduzca el coche","","Intentelo de nuevo",NULL,ALLEGRO_MESSAGEBOX_WARN);
             }
-            path = busqueda.dibujar_camino();
-            for(int i=0; i<path.size()-1;i++){
-                mapa.modify_cell(path[i], TRAYECTORIA);
-            }
-
 
         }
         else if(ev.keyboard.keycode==ALLEGRO_KEY_P){

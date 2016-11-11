@@ -21,8 +21,14 @@ map::map()
         for(unsigned i=0; i<cells_width; i++){
             for(unsigned j=0; j<cells_height; j++){
                 unsigned ran_aux = rand() % 100;
-                if(ran_aux<obs_prob)
+                if(ran_aux<obs_prob){
                     cells[i][j]=MURO;
+                }
+                else{
+                    if(ran_aux>96){
+                        cells[i][j]=PERSONA;
+                    }
+                }
             }
         }
 
