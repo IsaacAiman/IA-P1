@@ -147,9 +147,6 @@ void enviroment::draw_map(){
     al_hold_bitmap_drawing(false);
 
     if(moving_car){
-        std::cout<<path.size()<<std::endl;
-        std::cout<<paso_path<<std::endl;
-        std::cout<<car_loop<<std::endl<<std::endl;
 
         mapa.move_car(path[paso_path], car_loop, carimg);
         car_loop++;
@@ -180,7 +177,6 @@ void enviroment::draw_map(){
                 if(sol){
                     path = busqueda.dibujar_camino();
                     paso_path=path.size()-2;
-                    std::cout<<path.size();
                     for(int i=0; i<path.size()-1;i++){
                         if(mapa.kind_of_celda(path[i])!=PERSONA){
                             mapa.modify_cell(path[i], TRAYECTORIA);
@@ -307,7 +303,6 @@ bool enviroment::events(){
                 if(sol){
                     path = busqueda.dibujar_camino();
                     paso_path=path.size()-2;
-                    std::cout<<path.size();
                     for(int i=0; i<path.size()-1;i++){
                         if(mapa.kind_of_celda(path[i])!=PERSONA){
                             mapa.modify_cell(path[i], TRAYECTORIA);

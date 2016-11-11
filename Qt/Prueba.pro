@@ -5,6 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui
+ICON = icon.icns
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 

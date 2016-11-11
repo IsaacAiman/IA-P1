@@ -1,0 +1,33 @@
+Para compilar el programa, es necesario instalar la librería de Allegro.
+
+Para ello basta con ejecutar:
+
+$ sudo add-apt-repository ppa:allegro/5.2
+$ sudo apt-get update
+$ sudo apt-get install liballegro5-dev
+
+Una vez instalada, simplemente hay que ejecutar el Makefile para compilar la
+práctica. Al ejecutable creado, hay que pasar 4 argumentos:
+
+$ ./coche [ANCHO] [ALTO] [PORCENTAJE DE OBS] [MAPA VACIO [1] o MAPA CON OBSTÁCULOS [0]]
+
+ej:
+
+  ./coche 80 80 30 0
+
+
+==========
+QT CREATOR
+==========
+
+Para ejecutar el programa con el cuadro de diálogo para introducir los datos, es necesario
+exportar la carpeta llamada Qt a Qt Creator. Puesto que Qt no permite utilizar rutas
+relativas, será necesarió cambiar en main.cpp (del proyecto de qt) la ruta del ejecutable
+"coche". Además, en "enviroment.cpp", también habría que cambiar las rutas de las imágenes
+y de la fuente, poniéndolas de forma absoluta.
+
+Una vez hecho todo esto, el proyecto en Qt funcionará correctamente.
+
+
+Ante cualquier problema a la hora de poner en funcionamiento el programa, contacte con cualquiera
+de los miembros del grupo. 
