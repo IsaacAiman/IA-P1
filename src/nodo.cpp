@@ -85,12 +85,9 @@ bool operator < ( node n1, node n2){
 void node::calcular_g(void){
 
   if (parent!=NULL){
-    std::cout << "no soy cero" << std::endl;
-    std::cout << "soy: " << parent->get_g()+1<< std::endl;
     g = parent->get_g()+1;
   }
   else{
-    std::cout << "soy cero" << std::endl;
     g = 0;
   }
  //std::cout << "g: " << g << std::endl;
@@ -110,7 +107,7 @@ void node::calcular_f(void){
 
 }
 int node::manhattan (celda x, celda y){
-
+  std::cout << "end_manhatan: "<<y.x <<y.y << std::endl;
   return (abs(x.y-y.y) + abs(x.x-y.x));
 
 }
