@@ -229,11 +229,15 @@ bool enviroment::events(){
         }
         else if(ev.keyboard.keycode==ALLEGRO_KEY_SPACE){
 
-            if(path.size()){
-                for(int i=0; i<path.size()-1;i++){
-                    mapa.modify_cell(path[i], VACIO);
+            for(unsigned i=0; i<cells_width; i++){
+                for(unsigned j=0; j<cells_height; j++){
+                    celda aux{i,j};
+                    if((mapa.kind_of_celda(aux)==TRAYECTORIA)||(mapa.kind_of_celda(aux)==VISITADA)){
+                        mapa.modify_cell(aux, VACIO);
+                    }
                 }
             }
+
 
             a_estrella busqueda(&mapa);
             if (!busqueda.camino()){
