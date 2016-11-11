@@ -6,6 +6,8 @@ enviroment::enviroment(bool &error)
     end_bool=false;
     keyboard_status=0;
 
+    path.resize(0);
+
 
     if(!al_init()) {
         fprintf(stderr, "Fallo al inciiar la librer�a gr�fica!!\n");
@@ -227,15 +229,21 @@ bool enviroment::events(){
         }
         else if(ev.keyboard.keycode==ALLEGRO_KEY_SPACE){
 
+            if(path.size()){
+                for(int i=0; i<path.size()-1;i++){
+                    mapa.modify_cell(path[i], VACIO);
+                }
+            }
+
             a_estrella busqueda(&mapa);
             if (!busqueda.camino()){
 
               al_show_native_message_box(display,"No hay solución","","Inténtelo de nuevo.",NULL,ALLEGRO_MESSAGEBOX_WARN);
 
             }
-            std::vector<celda> camino = busqueda.dibujar_camino();
-            for(int i=0; i<camino.size()-1;i++){
-                mapa.modify_cell(camino[i], TRAYECTORIA);
+            path = busqueda.dibujar_camino();
+            for(int i=0; i<path.size()-1;i++){
+                mapa.modify_cell(path[i], TRAYECTORIA);
             }
 
 

@@ -3,6 +3,7 @@
 
 
 #include <algorithm>
+#include <vector>
 #include <allegro5/allegro.h>
 #include "allegro5/allegro_native_dialog.h"
 #include "allegro5/allegro_image.h"
@@ -23,7 +24,7 @@
 #define COLORCOCHE al_map_rgb(200,0,200)
 #define COLORMURO al_map_rgb(0,0,200)
 #define COLORVISITADO al_map_rgb(150,150,150)
-#define COLORTRAYECTORIA al_map_rgb(255,0,0)
+#define COLORTRAYECTORIA al_map_rgb(255,69,0)
 #define COLORMETA al_map_rgb(255,255,255)
 #define COLORPERSONA al_map_rgb(100,255,255)
 #define COLORVACIO al_map_rgb (0,0,0)

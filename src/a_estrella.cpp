@@ -1,5 +1,6 @@
 #include "../header/a_estrella.hpp"
 
+bool compare (node*a, node*b);
 
 a_estrella::a_estrella (map *m){
   mapa = m;
@@ -45,7 +46,7 @@ bool a_estrella::camino (void){
         insert_open(neighbours[i]);
       }
 
-      std::sort(open.begin(), open.end()); //ordenando vector open.
+      std::sort(open.begin(), open.end(), compare); //ordenando vector open.
 
     }
   }
@@ -69,6 +70,7 @@ std::vector<node*> a_estrella::vecinos (node *vecino){
     if (mapa->kind_of_celda(aux)!=MURO){
       node * vecino1 = new node(aux, vecino, pos_final, pos_inicio);
       neighbours.push_back(vecino1);
+      mapa->modify_cell(aux, VISITADA);
     }
   }
 
@@ -78,6 +80,7 @@ std::vector<node*> a_estrella::vecinos (node *vecino){
     if (mapa->kind_of_celda(aux)!=MURO ){
         node * vecino1 = new node(aux, vecino, pos_final, pos_inicio);
       neighbours.push_back(vecino1);
+      mapa->modify_cell(aux, VISITADA);
     }
   }
 
@@ -87,6 +90,7 @@ std::vector<node*> a_estrella::vecinos (node *vecino){
     if (mapa->kind_of_celda(aux)!=MURO){
         node * vecino1 = new node(aux, vecino, pos_final, pos_inicio);
       neighbours.push_back(vecino1);
+      mapa->modify_cell(aux, VISITADA);
     }
   }
 
@@ -96,6 +100,7 @@ std::vector<node*> a_estrella::vecinos (node *vecino){
     if (mapa->kind_of_celda(aux)!=MURO){
         node * vecino1 = new node(aux, vecino, pos_final, pos_inicio);
       neighbours.push_back(vecino1);
+      mapa->modify_cell(aux, VISITADA);
     }
   }
 
@@ -179,4 +184,11 @@ std::vector<celda> a_estrella::dibujar_camino(void){
   }
 
   return aux;
+}
+
+bool compare (node*a, node*b){
+    if(a->get_f()<b->get_f())
+        return true;
+    else
+        return false;
 }

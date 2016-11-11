@@ -22,6 +22,7 @@ class enviroment
 
     private:
         map mapa;
+        std::vector<celda> path;
         ALLEGRO_DISPLAY *display = NULL;
         ALLEGRO_BITMAP *wall =NULL;
         ALLEGRO_BITMAP *end =NULL;
