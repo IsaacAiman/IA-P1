@@ -180,7 +180,6 @@ bool enviroment::events(){
         keep=false;
     }
     else if (ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN) {
-            std::cout<<"holi"<<std::endl;
         if (ev.mouse.button & 1 ){
             int x = (ev.mouse.x);
             int y = (ev.mouse.y)-50;
@@ -219,9 +218,6 @@ bool enviroment::events(){
             keyboard_status=PONIENDOCOCHE;
         }
         else if(ev.keyboard.keycode==ALLEGRO_KEY_SPACE){
-            //CORRE EL ALGORITMO
-            //celda inicio = mapa.get_pos_coche();
-            //node primer(mapa.get_pos_coche(), NULL, mapa.get_pos_final(),inicio);
 
             a_estrella busqueda(&mapa);
             if (!busqueda.camino()){

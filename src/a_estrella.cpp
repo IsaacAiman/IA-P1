@@ -4,12 +4,22 @@
 a_estrella::a_estrella (map *m){
   mapa = m;
   pos_actual = mapa->get_pos_coche();
-  std::cout << pos_actual.x <<"   "<<pos_actual.y << std::endl;
   pos_inicio = pos_actual;
   pos_final = mapa->get_pos_final();
 }
 
 a_estrella::~a_estrella (){
+
+  for (int i = 0; i<closed.size(); i++){
+    delete closed[i];
+  }
+  for (int i = 0; i<open.size(); i++){
+    delete open[i];
+  }
+  mapa = NULL;
+  delete path;
+  closed.resize(0);
+  open.resize(0);
 
 }
 
@@ -29,7 +39,6 @@ bool a_estrella::camino (void){
     }
     else{
       open.erase(open.begin());
-      std::cout << "open_size: "<< open.size() << std::endl;
       insert_closed(current);
       std::vector<node*> neighbours = vecinos(current);
       for (int i = 0; i<neighbours.size(); i++){
@@ -40,12 +49,9 @@ bool a_estrella::camino (void){
 
     }
   }
-  std::cout << "meta" << pos_final.x << " " <<pos_final.y << std::endl;
-  std::cout << "current: "<< current->get_pos().x << " " <<current->get_pos().y << std::endl;
-  std::cout << "fin del pathritmo" << std::endl;
 
+  std::cout << "fin del algoritmo" << std::endl;
   path = current;
-
   return salida;
 }
 
@@ -149,7 +155,6 @@ void a_estrella::insert_open(node* aux){
 
   if (in_closed(aux)){
     if (*closed[find_closed(aux)] < *aux ){
-      std::cout << "find_closed" << std::endl;
       return;
     }
   }

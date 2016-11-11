@@ -107,7 +107,6 @@ void node::calcular_f(void){
 
 }
 int node::manhattan (celda x, celda y){
-  std::cout << "end_manhatan: "<<y.x <<y.y << std::endl;
   return (abs(x.y-y.y) + abs(x.x-y.x));
 
 }
