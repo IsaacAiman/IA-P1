@@ -159,6 +159,7 @@ void enviroment::draw_map(){
                 moving_car=false;
             paso_path--;
         }
+        mapa.modify_cell(path[paso_path], TRAYECTORIA);
     }
 
 }

@@ -42,6 +42,7 @@ void coche::move(celda aux, int recorrido, ALLEGRO_BITMAP* carimg){
             coord_y++;
             break;
         }
+        recorrido=0;
     }
     if(aux.x > coord_x){
         d=2;
@@ -56,7 +57,7 @@ void coche::move(celda aux, int recorrido, ALLEGRO_BITMAP* carimg){
     if(aux.y < coord_y){
         d=1;
     }
-    if(!(recorrido==each_pixel_height-1)){
+    //if(!(recorrido==each_pixel_height-1)){
         switch(d){
         case 2:
             al_draw_scaled_rotated_bitmap(carimg, al_get_bitmap_width(carimg)/2, al_get_bitmap_height(carimg)/2,
@@ -79,6 +80,6 @@ void coche::move(celda aux, int recorrido, ALLEGRO_BITMAP* carimg){
                                        (each_pixel_width+0.0)/al_get_bitmap_width(carimg), (each_pixel_height+0.0)/al_get_bitmap_height(carimg), (d)*(ALLEGRO_PI/2), 0);
             break;
         }
-    }
+    //}
 }
 
