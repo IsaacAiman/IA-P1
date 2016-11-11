@@ -51,6 +51,8 @@ enviroment::enviroment(bool &error)
       error=true;
     }
 
+    al_init_primitives_addon();
+
     al_set_new_display_flags(ALLEGRO_WINDOWED);
     al_set_new_display_flags(ALLEGRO_RESIZABLE);
     display = al_create_display(pixels_width, pixels_height);
@@ -115,6 +117,12 @@ void enviroment::draw_map(){
                 al_draw_scaled_bitmap(person,
                 0, 0, al_get_bitmap_width(person), al_get_bitmap_height(person),
                 i*each_pixel_width, j*each_pixel_height+50, each_pixel_width, each_pixel_height, 0);
+            }
+            else if(mapa.kind_of_celda(aux)==VISITADA){
+                al_draw_filled_rectangle(aux.x*each_pixel_width, aux.y*each_pixel_height+50, each_pixel_width*aux.x+each_pixel_width, each_pixel_height*aux.y+each_pixel_height+50, COLORVISITADO);
+            }
+            else if(mapa.kind_of_celda(aux)==TRAYECTORIA){
+                al_draw_filled_rectangle(aux.x*each_pixel_width, aux.y*each_pixel_height+50, each_pixel_width*aux.x+each_pixel_width, each_pixel_height*aux.y+each_pixel_height+50, COLORTRAYECTORIA);
             }
         }
     }
@@ -225,7 +233,11 @@ bool enviroment::events(){
               al_show_native_message_box(display,"No hay solución","","Inténtelo de nuevo.",NULL,ALLEGRO_MESSAGEBOX_WARN);
 
             }
-            busqueda.dibujar_camino();
+            std::vector<celda> camino = busqueda.dibujar_camino();
+            for(int i=0; i<camino.size()-1;i++){
+                mapa.modify_cell(camino[i], TRAYECTORIA);
+            }
+
 
         }
         else if(ev.keyboard.keycode==ALLEGRO_KEY_P){
