@@ -26,12 +26,12 @@ int main(int argc, char **argv)
     from_scratch=atoi(argv[4]);
 
     if(proporcion<=1){
-        pixels_height=750;
-        pixels_width=(700*proporcion);
+        pixels_height=800;
+        pixels_width=(750*proporcion);
     }
     else{
-        pixels_width=700;
-        pixels_height=(700/proporcion)+50;
+        pixels_width=750;
+        pixels_height=(750/proporcion)+50;
     }
     each_pixel_width=pixels_width/cells_width;
     each_pixel_height=(pixels_height-50)/cells_height;

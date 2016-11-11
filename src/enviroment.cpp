@@ -187,6 +187,7 @@ bool enviroment::events(){
 
         draw_map();
         draw_text();
+        al_flip_display();
     }
 
     if(ev.type == ALLEGRO_EVENT_TIMER) {
