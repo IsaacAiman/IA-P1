@@ -227,7 +227,8 @@ bool enviroment::events(){
 
                 if ((MURO!=mapa.kind_of_celda(aux)) && keyboard_status==PONIENDOCOCHE ){
                     car_bool=true;
-                    mapa.create_car(aux);
+                    if(!moving_car)
+                        mapa.create_car(aux);
                 }
                 if ((MURO!=mapa.kind_of_celda(aux)) && keyboard_status==PONIENDOMETA){
                     end_bool=true;

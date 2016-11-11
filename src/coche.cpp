@@ -56,29 +56,29 @@ void coche::move(celda aux, int recorrido, ALLEGRO_BITMAP* carimg){
     if(aux.y < coord_y){
         d=1;
     }
-
-    switch(d){
-    case 2:
-        al_draw_scaled_rotated_bitmap(carimg, al_get_bitmap_width(carimg)/2, al_get_bitmap_height(carimg)/2,
-                                  coord_x*each_pixel_width+(each_pixel_width/2)+recorrido, coord_y*each_pixel_height+(each_pixel_height/2)+50,
-                                   (each_pixel_width+0.0)/al_get_bitmap_width(carimg), (each_pixel_height+0.0)/al_get_bitmap_height(carimg), (d)*(ALLEGRO_PI/2), 0);
-        break;
-    case 0:
-        al_draw_scaled_rotated_bitmap(carimg, al_get_bitmap_width(carimg)/2, al_get_bitmap_height(carimg)/2,
-                                  coord_x*each_pixel_width+(each_pixel_width/2)-recorrido, coord_y*each_pixel_height+(each_pixel_height/2)+50,
-                                   (each_pixel_width+0.0)/al_get_bitmap_width(carimg), (each_pixel_height+0.0)/al_get_bitmap_height(carimg), (d)*(ALLEGRO_PI/2), 0);
-        break;
-    case 3:
-        al_draw_scaled_rotated_bitmap(carimg, al_get_bitmap_width(carimg)/2, al_get_bitmap_height(carimg)/2,
-                                  coord_x*each_pixel_width+(each_pixel_width/2), coord_y*each_pixel_height+(each_pixel_height/2)+50+recorrido,
-                                   (each_pixel_width+0.0)/al_get_bitmap_width(carimg), (each_pixel_height+0.0)/al_get_bitmap_height(carimg), (d)*(ALLEGRO_PI/2), 0);
-        break;
-    case 1:
-        al_draw_scaled_rotated_bitmap(carimg, al_get_bitmap_width(carimg)/2, al_get_bitmap_height(carimg)/2,
-                                  coord_x*each_pixel_width+(each_pixel_width/2), coord_y*each_pixel_height+(each_pixel_height/2)+50-recorrido,
-                                   (each_pixel_width+0.0)/al_get_bitmap_width(carimg), (each_pixel_height+0.0)/al_get_bitmap_height(carimg), (d)*(ALLEGRO_PI/2), 0);
-        break;
+    if(!(recorrido==each_pixel_height-1)){
+        switch(d){
+        case 2:
+            al_draw_scaled_rotated_bitmap(carimg, al_get_bitmap_width(carimg)/2, al_get_bitmap_height(carimg)/2,
+                                      coord_x*each_pixel_width+(each_pixel_width/2)+recorrido, coord_y*each_pixel_height+(each_pixel_height/2)+50,
+                                       (each_pixel_width+0.0)/al_get_bitmap_width(carimg), (each_pixel_height+0.0)/al_get_bitmap_height(carimg), (d)*(ALLEGRO_PI/2), 0);
+            break;
+        case 0:
+            al_draw_scaled_rotated_bitmap(carimg, al_get_bitmap_width(carimg)/2, al_get_bitmap_height(carimg)/2,
+                                      coord_x*each_pixel_width+(each_pixel_width/2)-recorrido, coord_y*each_pixel_height+(each_pixel_height/2)+50,
+                                       (each_pixel_width+0.0)/al_get_bitmap_width(carimg), (each_pixel_height+0.0)/al_get_bitmap_height(carimg), (d)*(ALLEGRO_PI/2), 0);
+            break;
+        case 3:
+            al_draw_scaled_rotated_bitmap(carimg, al_get_bitmap_width(carimg)/2, al_get_bitmap_height(carimg)/2,
+                                      coord_x*each_pixel_width+(each_pixel_width/2), coord_y*each_pixel_height+(each_pixel_height/2)+50+recorrido,
+                                       (each_pixel_width+0.0)/al_get_bitmap_width(carimg), (each_pixel_height+0.0)/al_get_bitmap_height(carimg), (d)*(ALLEGRO_PI/2), 0);
+            break;
+        case 1:
+            al_draw_scaled_rotated_bitmap(carimg, al_get_bitmap_width(carimg)/2, al_get_bitmap_height(carimg)/2,
+                                      coord_x*each_pixel_width+(each_pixel_width/2), coord_y*each_pixel_height+(each_pixel_height/2)+50-recorrido,
+                                       (each_pixel_width+0.0)/al_get_bitmap_width(carimg), (each_pixel_height+0.0)/al_get_bitmap_height(carimg), (d)*(ALLEGRO_PI/2), 0);
+            break;
+        }
     }
-
 }
 
