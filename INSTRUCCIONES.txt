@@ -31,3 +31,8 @@ Una vez hecho todo esto, el proyecto en Qt funcionará correctamente.
 
 Ante cualquier problema a la hora de poner en funcionamiento el programa, contacte con cualquiera
 de los miembros del grupo. 
+
+
+GITHUB DEL PROYECTO: 
+
+https://github.com/alu0100841565/IA-P1
