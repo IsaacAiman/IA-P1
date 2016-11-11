@@ -10,6 +10,7 @@
 class a_estrella {
 private:
   celda pos_inicio;
+  node *path;
   std::vector<node*> open;
   std::vector<node*> closed;
   map* mapa;
@@ -25,9 +26,9 @@ private:
 public:
   a_estrella (map *m);
   ~a_estrella ();
-  void camino (void);
+  bool camino (void);
   std::vector<node*> vecinos(node* vecino); //calcula los vecinos
-  void dibujar_camino(std::vector<node> n);
+  std::vector<celda> dibujar_camino(void);
 };
 
 #endif // A_ESTRELLA_H

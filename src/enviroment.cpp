@@ -224,6 +224,12 @@ bool enviroment::events(){
             //node primer(mapa.get_pos_coche(), NULL, mapa.get_pos_final(),inicio);
 
             a_estrella busqueda(&mapa);
+            if (!busqueda.camino()){
+
+              al_show_native_message_box(display,"No hay solución","","Inténtelo de nuevo.",NULL,ALLEGRO_MESSAGEBOX_WARN);
+
+            }
+            busqueda.dibujar_camino();
 
         }
         else if(ev.keyboard.keycode==ALLEGRO_KEY_P){

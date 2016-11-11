@@ -7,14 +7,13 @@ a_estrella::a_estrella (map *m){
   std::cout << pos_actual.x <<"   "<<pos_actual.y << std::endl;
   pos_inicio = pos_actual;
   pos_final = mapa->get_pos_final();
-  camino();
 }
 
 a_estrella::~a_estrella (){
 
 }
 
-void a_estrella::camino (void){
+bool a_estrella::camino (void){
   node *start = new node(pos_inicio, NULL, pos_final, pos_inicio);
   node *end = new node(pos_final, NULL, pos_final, pos_inicio);
   node *current = start;
@@ -43,16 +42,11 @@ void a_estrella::camino (void){
   }
   std::cout << "meta" << pos_final.x << " " <<pos_final.y << std::endl;
   std::cout << "current: "<< current->get_pos().x << " " <<current->get_pos().y << std::endl;
-  std::cout << "fin del algoritmo" << std::endl;
-  node *algo = current;
-  while(algo!=NULL){
-    std::cout << "current: x: "<<algo->get_pos().x<< "y: " <<algo->get_pos().y << std::endl;
-    algo = algo->get_parent();
-  }
+  std::cout << "fin del pathritmo" << std::endl;
 
+  path = current;
 
-  salida = false;
-
+  return salida;
 }
 
 std::vector<node*> a_estrella::vecinos (node *vecino){
@@ -169,4 +163,15 @@ void a_estrella::insert_open(node* aux){
   if (!in_open(aux)){
     open.push_back(aux);
   }
+}
+std::vector<celda> a_estrella::dibujar_camino(void){
+
+  std::vector<celda> aux;
+
+  while(path!=NULL){
+    aux.push_back(path->get_pos());
+    path = path->get_parent();
+  }
+
+  return aux;
 }
