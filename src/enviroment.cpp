@@ -159,7 +159,42 @@ void enviroment::draw_map(){
                 moving_car=false;
             paso_path--;
         }
-        mapa.modify_cell(path[paso_path], TRAYECTORIA);
+        if(mapa.kind_of_celda(path[paso_path])==MURO){
+            moving_car=false;
+            car_loop=0;
+            if(car_bool){
+                for(unsigned i=0; i<cells_width; i++){
+                    for(unsigned j=0; j<cells_height; j++){
+                        celda aux{i,j};
+                        if((mapa.kind_of_celda(aux)==TRAYECTORIA)||(mapa.kind_of_celda(aux)==VISITADA)){
+                            mapa.modify_cell(aux, VACIO);
+                        }
+                    }
+                }
+                a_estrella busqueda(&mapa);
+                bool sol=true;
+                if (!busqueda.camino()){
+                  sol=false;
+                  al_show_native_message_box(display,"No hay solución","","Inténtelo de nuevo.",NULL,ALLEGRO_MESSAGEBOX_WARN);
+                }
+                if(sol){
+                    path = busqueda.dibujar_camino();
+                    paso_path=path.size()-2;
+                    std::cout<<path.size();
+                    for(int i=0; i<path.size()-1;i++){
+                        if(mapa.kind_of_celda(path[i])!=PERSONA){
+                            mapa.modify_cell(path[i], TRAYECTORIA);
+                        }
+                    }
+                    if(path.size()>2)
+                        moving_car=1;
+                }
+            }
+
+        }
+        else
+            mapa.modify_cell(path[paso_path], TRAYECTORIA);
+
     }
 
 }
@@ -264,20 +299,23 @@ bool enviroment::events(){
                     }
                 }
                 a_estrella busqueda(&mapa);
+                bool sol=true;
                 if (!busqueda.camino()){
-
+                  sol=false;
                   al_show_native_message_box(display,"No hay solución","","Inténtelo de nuevo.",NULL,ALLEGRO_MESSAGEBOX_WARN);
-
                 }
-                path = busqueda.dibujar_camino();
-                paso_path=path.size()-2;
-                std::cout<<path.size();
-                for(int i=0; i<path.size()-1;i++){
-                    if(mapa.kind_of_celda(path[i])!=PERSONA){
-                        mapa.modify_cell(path[i], TRAYECTORIA);
+                if(sol){
+                    path = busqueda.dibujar_camino();
+                    paso_path=path.size()-2;
+                    std::cout<<path.size();
+                    for(int i=0; i<path.size()-1;i++){
+                        if(mapa.kind_of_celda(path[i])!=PERSONA){
+                            mapa.modify_cell(path[i], TRAYECTORIA);
+                        }
                     }
+                    if(path.size()>2)
+                        moving_car=1;
                 }
-                moving_car=1;
             }
             else{
                 al_show_native_message_box(display,"Introduzca el coche","","Intentelo de nuevo",NULL,ALLEGRO_MESSAGEBOX_WARN);
