@@ -36,6 +36,10 @@ class enviroment
         bool car_bool;
         bool end_bool;
 
+        bool moving_car;
+        int car_loop;
+        int paso_path;
+
         int keyboard_status;
 
         void draw_map();

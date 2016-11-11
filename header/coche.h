@@ -21,7 +21,7 @@ class coche
         virtual ~coche();
         short get_x();
         short get_y();
-        //void move(int dir);
+        void move(celda aux,int recorrido, ALLEGRO_BITMAP* carimg);
 };
 
 #endif // COCHE_H

@@ -83,6 +83,7 @@ void map::create_end(celda x){
     final->y=x.y;
 }
 
-
-
-
+void map::move_car(celda aux,int recorrido, ALLEGRO_BITMAP* imgcoche){
+    if(car)
+        car->move(aux,recorrido, imgcoche);
+}

@@ -6,6 +6,10 @@ enviroment::enviroment(bool &error)
     end_bool=false;
     keyboard_status=0;
 
+    moving_car=false;
+    car_loop=0;
+    paso_path=0;
+
     path.resize(0);
 
 
@@ -129,7 +133,7 @@ void enviroment::draw_map(){
         }
     }
 
-    if(car_bool){
+    if(car_bool && !moving_car){
         celda aux=mapa.get_pos_coche();
         al_draw_scaled_bitmap(carimg,0, 0, al_get_bitmap_width(carimg), al_get_bitmap_height(carimg),
         aux.x*each_pixel_width, aux.y*each_pixel_height+50, each_pixel_width, each_pixel_height, 0);
@@ -141,6 +145,21 @@ void enviroment::draw_map(){
         aux.x*each_pixel_width, aux.y*each_pixel_height+50, each_pixel_width, each_pixel_height, 0);
     }
     al_hold_bitmap_drawing(false);
+
+    if(moving_car){
+        std::cout<<path.size()<<std::endl;
+        std::cout<<paso_path<<std::endl;
+        std::cout<<car_loop<<std::endl<<std::endl;
+
+        mapa.move_car(path[paso_path], car_loop, carimg);
+        car_loop++;
+        if(car_loop%each_pixel_height==0){
+            car_loop=0;
+            if(paso_path==1)
+                moving_car=false;
+            paso_path--;
+        }
+    }
 
 }
 
@@ -227,7 +246,12 @@ bool enviroment::events(){
         else if(ev.keyboard.keycode==ALLEGRO_KEY_C){
             keyboard_status=PONIENDOCOCHE;
         }
+        else if(ev.keyboard.keycode==ALLEGRO_KEY_Q){
+            moving_car=false;
+        }
         else if(ev.keyboard.keycode==ALLEGRO_KEY_SPACE){
+            moving_car=false;
+            car_loop=0;
             if(car_bool){
                 for(unsigned i=0; i<cells_width; i++){
                     for(unsigned j=0; j<cells_height; j++){
@@ -244,11 +268,14 @@ bool enviroment::events(){
 
                 }
                 path = busqueda.dibujar_camino();
+                paso_path=path.size()-2;
+                std::cout<<path.size();
                 for(int i=0; i<path.size()-1;i++){
                     if(mapa.kind_of_celda(path[i])!=PERSONA){
                         mapa.modify_cell(path[i], TRAYECTORIA);
                     }
                 }
+                moving_car=1;
             }
             else{
                 al_show_native_message_box(display,"Introduzca el coche","","Intentelo de nuevo",NULL,ALLEGRO_MESSAGEBOX_WARN);

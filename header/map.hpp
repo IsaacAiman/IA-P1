@@ -18,6 +18,7 @@ class map
         void modify_cell(celda aux, short kind);
         void create_car(celda x);
         void create_end(celda x);
+        void move_car (celda aux, int recorrido, ALLEGRO_BITMAP* imgcoche );
 
     private:
         short ** cells;
