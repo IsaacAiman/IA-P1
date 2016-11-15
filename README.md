@@ -10,7 +10,7 @@ Miembros
 
 ## Descripción de funcionamiento
 
-El funcionamiento de nuestro programa consiste en implementar una estrategia de búsqueda heurística determinada, en este caso la búsqueda ________ ,  con el objetivo de dar la posibilidad a un vehículo de llegar de un punto a otro escogiendo siempre el camino más óptimo. Este camino óptimo se escogerá en función a un criterio determinado, en este caso ___.
+El funcionamiento de nuestro programa consiste en implementar una estrategia de búsqueda heurística determinada, en este caso la búsqueda A estrella,  con el objetivo de dar la posibilidad a un vehículo de llegar de un punto a otro escogiendo siempre el camino más óptimo.
 
 ## Herramientas de desarrollo
 
